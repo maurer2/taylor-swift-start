@@ -1,25 +1,32 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { getListEntries } from "~/server-functions/get-list-entries";
 // import { useServerFn } from "@tanstack/react-start";
+import {
+  // getListEntries,
+  listEntriesQuery,
+} from "~/server-functions/get-list-entries";
+import { List } from "~/components/List";
+
 // import { use } from "react";
+import { Suspense } from "react";
 
 export const Route = createFileRoute("/filtering")({
   component: Filtering,
-  async loader() {
-    const list = await getListEntries();
-
-    return {
-      list,
-    };
+  loader: async ({ context }) => {
+    // context.queryClient.prefetchQuery({
+    //   queryKey: ["list"],
+    //   queryFn: async () => getListEntries(),
+    // });
+    context.queryClient.prefetchQuery(listEntriesQuery);
   },
   staleTime: 0,
 });
 
 function Filtering() {
-  // const getListEntriesFn = useServerFn(getListEntries);
+  // const getListEntriesPromise = useServerFn(getListEntries);
   // const list = use(getListEntriesFn()); // infinite loop
-  const { list } = Route.useLoaderData();
-  const { isFetching } = Route.useMatch();
+  // const { list } = Route.useLoaderData();
+  // const { isFetching } = Route.useMatch();
+  // const { listPromise } = Route.useLoaderData();
 
   return (
     <div className="p-2">
@@ -29,12 +36,9 @@ function Filtering() {
 
       <hr />
 
-      {isFetching ? <p>Loading</p> : null}
-      {!isFetching ? (
-        <div aria-live="polite" aria-busy={isFetching}>
-          <pre>{JSON.stringify(list, null, 4)}</pre>
-        </div>
-      ) : null}
+      <Suspense fallback={<p>Loading</p>}>
+        <List />
+      </Suspense>
     </div>
   );
 }

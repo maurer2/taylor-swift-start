@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { queryOptions } from "@tanstack/react-query";
 import listJSON from "./list.json";
 
 type ListEntry = {
@@ -7,7 +8,7 @@ type ListEntry = {
   country: string;
 };
 
-const MIN_DURATION = 2000;
+const MIN_DURATION = 2500;
 
 export const getListEntries = createServerFn().handler(async () => {
   const promises = await Promise.all([
@@ -18,4 +19,11 @@ export const getListEntries = createServerFn().handler(async () => {
   });
 
   return promises[0];
+});
+
+export const listEntriesQuery = queryOptions({
+  queryKey: ["list"],
+  queryFn: async () => getListEntries(),
+  staleTime: 0,
+  refetchOnWindowFocus: false,
 });
