@@ -1,9 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 // import { useServerFn } from "@tanstack/react-start";
-import {
-  // getListEntries,
-  listEntriesQuery,
-} from "~/server-functions/get-list-entries";
+import { listEntriesQueryOptions } from "~/server-functions/get-list-entries";
 import { List } from "~/components/List";
 
 // import { use } from "react";
@@ -11,14 +8,16 @@ import { Suspense } from "react";
 
 export const Route = createFileRoute("/filtering")({
   component: Filtering,
-  loader: async ({ context }) => {
-    // context.queryClient.prefetchQuery({
-    //   queryKey: ["list"],
-    //   queryFn: async () => getListEntries(),
-    // });
-    context.queryClient.prefetchQuery(listEntriesQuery);
+  beforeLoad: async ({ context: { queryClient } }) => {
+    queryClient.prefetchQuery(listEntriesQueryOptions);
+
+    return {
+      listEntriesQueryOptions,
+    };
   },
-  staleTime: 0,
+  // loader: async ({ context: { queryClient, listEntriesQueryOptions } }) => {
+  //   queryClient.prefetchQuery(listEntriesQueryOptions);
+  // },
 });
 
 function Filtering() {

@@ -1,18 +1,9 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import {
-  // getListEntries,
-  listEntriesQuery,
-} from "~/server-functions/get-list-entries";
 
-// export const listEntriesQuery = (id: string) =>
-//   queryOptions({
-//     queryKey: ["list"],
-//     queryFn: async () => getListEntries(),
-//     staleTime: 0,
-//   });
+import { listEntriesQueryOptions } from "~/server-functions/get-list-entries";
 
 export function List() {
-  const { data: list, isFetching } = useSuspenseQuery(listEntriesQuery);
+  const { data: list, isFetching } = useSuspenseQuery(listEntriesQueryOptions);
 
   return (
     <>

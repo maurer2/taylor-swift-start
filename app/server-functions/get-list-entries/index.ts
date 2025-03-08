@@ -21,9 +21,9 @@ export const getListEntries = createServerFn().handler(async () => {
   return promises[0];
 });
 
-export const listEntriesQuery = queryOptions({
+export const listEntriesQueryOptions = queryOptions({
   queryKey: ["list"],
   queryFn: async () => getListEntries(),
-  staleTime: 0,
+  staleTime: 10000,
   refetchOnWindowFocus: false,
 });
