@@ -92,6 +92,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           </Link>{" "}
           <Link
             to="/filtering"
+            search={{ sortBy: "name" }}
             activeProps={{
               className: "font-bold",
             }}

@@ -3,7 +3,10 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { listEntriesQueryOptions } from "~/server-functions/get-list-entries";
 
 export function List() {
-  const { data: list, isFetching } = useSuspenseQuery(listEntriesQueryOptions);
+  const { data: list, isFetching } = useSuspenseQuery({
+    ...listEntriesQueryOptions,
+    queryKey: ["list", "name"],
+  });
 
   return (
     <>
