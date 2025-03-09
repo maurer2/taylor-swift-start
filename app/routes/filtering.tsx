@@ -1,5 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 // import { useServerFn } from "@tanstack/react-start";
+
 import {
   listEntriesQueryOptions,
   type ListEntry,
@@ -15,7 +16,6 @@ type RouteSearchParams = {
 
 export const Route = createFileRoute("/filtering")({
   component: Filtering,
-  // search params
   validateSearch: (search): RouteSearchParams => {
     if (!Object.hasOwn(search, "sortBy") || search.sortBy === "name") {
       return { sortBy: "name" };
@@ -27,11 +27,8 @@ export const Route = createFileRoute("/filtering")({
 
     return { sortBy: "country" };
   },
-  beforeLoad: async ({ context: { queryClient } }) => {
-    queryClient.prefetchQuery({
-      ...listEntriesQueryOptions,
-      queryKey: ["list", "name"],
-    });
+  beforeLoad: async ({ context: { queryClient }, search: { sortBy } }) => {
+    queryClient.prefetchQuery(listEntriesQueryOptions(sortBy));
 
     return {
       listEntriesQueryOptions,
@@ -42,22 +39,48 @@ export const Route = createFileRoute("/filtering")({
   // },
 });
 
+const sortByButtonLabels: RouteSearchParams["sortBy"][] = [
+  "name",
+  "abbreviation",
+  "country",
+];
+
 function Filtering() {
-  // const getListEntriesPromise = useServerFn(getListEntries);
-  // const list = use(getListEntriesFn()); // infinite loop
   // const { list } = Route.useLoaderData();
   // const { isFetching } = Route.useMatch();
   // const { listPromise } = Route.useLoaderData();
 
+  const { sortBy } = Route.useSearch();
+
   return (
     <div className="p-2">
-      <h3>Filtering</h3>
+      <h3 className="mb-4">Filtering</h3>
 
-      <search>Filter tags</search>
+      <search className="mb-4">
+        <h4 id="filter-sort-by-title">Sort by</h4>
+        <div
+          className="flex gap-4"
+          role="group"
+          aria-describedby="filter-sort-by-title"
+        >
+          {sortByButtonLabels.map((sortByButton) => (
+            <Link
+              from="/filtering" // fixes TS error in next line
+              search={{ sortBy: sortByButton }}
+              type="button"
+              className="uppercase aria-[pressed='true']:bg-red-500"
+              aria-pressed={sortByButton === sortBy}
+              key={sortByButton}
+            >
+              {sortByButton}
+            </Link>
+          ))}
+        </div>
+      </search>
 
       <hr />
 
-      <Suspense fallback={<p>Loading</p>}>
+      <Suspense fallback={<p>Loading list</p>}>
         <List />
       </Suspense>
     </div>

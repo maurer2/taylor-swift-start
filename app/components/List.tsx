@@ -1,12 +1,15 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { getRouteApi } from "@tanstack/react-router";
+
+const parentRoute = getRouteApi("/filtering");
 
 import { listEntriesQueryOptions } from "~/server-functions/get-list-entries";
 
 export function List() {
-  const { data: list, isFetching } = useSuspenseQuery({
-    ...listEntriesQueryOptions,
-    queryKey: ["list", "name"],
-  });
+  const { sortBy } = parentRoute.useSearch();
+  const { data: list, isFetching } = useSuspenseQuery(
+    listEntriesQueryOptions(sortBy)
+  );
 
   return (
     <>
