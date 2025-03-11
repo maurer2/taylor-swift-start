@@ -65,12 +65,13 @@ function Filtering() {
         >
           {sortByButtonLabels.map((sortByButton) => (
             <Link
-              from="/filtering" // fixes TS error in next line
+              to="."
               search={{ sortBy: sortByButton }}
-              type="button"
-              className="uppercase aria-[pressed='true']:bg-red-500"
-              aria-pressed={sortByButton === sortBy}
+              className="uppercase"
               key={sortByButton}
+              activeProps={{
+                className: "bg-red-500",
+              }}
             >
               {sortByButton}
             </Link>
