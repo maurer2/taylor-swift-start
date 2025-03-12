@@ -34,6 +34,7 @@ export const Route = createFileRoute("/filtering")({
       listEntriesQueryOptions,
     };
   },
+  loaderDeps: ({ search }) => ({ search }),
   // loader: async ({ context: { queryClient, listEntriesQueryOptions } }) => {
   //   queryClient.prefetchQuery(listEntriesQueryOptions);
   // },

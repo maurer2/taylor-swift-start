@@ -18,6 +18,7 @@ export function createRouter() {
     context: {
       queryClient,
     },
+    defaultPreloadStaleTime: 0,
   });
 
   return routerWithQueryClient(router, queryClient);
