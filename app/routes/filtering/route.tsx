@@ -27,18 +27,22 @@ export const Route = createFileRoute("/filtering")({
 
     return { sortBy: "country" };
   },
-  beforeLoad: async ({ context: { queryClient }, search: { sortBy } }) => {
-    // https://tkdodo.eu/blog/react-query-meets-react-router#getquerydata--fetchquery
-    queryClient.ensureQueryData(listEntriesQueryOptions(sortBy));
-
+  // store query options in context
+  // https://tanstack.com/query/latest/docs/framework/react/guides/prefetching#router-integration
+  beforeLoad: () => {
     return {
-      listEntriesQueryOptions,
+      queryOptionsListEntries: listEntriesQueryOptions,
     };
   },
-  loaderDeps: ({ search }) => ({ search }),
-  // loader: async ({ context: { queryClient, listEntriesQueryOptions } }) => {
-  //   queryClient.prefetchQuery(listEntriesQueryOptions);
-  // },
+  // https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#using-search-params-in-loaders
+  loaderDeps: ({ search: { sortBy } }) => ({ sortBy }),
+  loader: async ({
+    context: { queryClient, queryOptionsListEntries },
+    deps: { sortBy },
+  }) => {
+    // https://tkdodo.eu/blog/react-query-meets-react-router#getquerydata--fetchquery
+    queryClient.ensureQueryData(queryOptionsListEntries(sortBy));
+  },
 });
 
 const sortByButtonLabels: RouteSearchParams["sortBy"][] = [
