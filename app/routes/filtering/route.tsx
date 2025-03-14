@@ -28,7 +28,8 @@ export const Route = createFileRoute("/filtering")({
     return { sortBy: "country" };
   },
   beforeLoad: async ({ context: { queryClient }, search: { sortBy } }) => {
-    queryClient.prefetchQuery(listEntriesQueryOptions(sortBy));
+    // https://tkdodo.eu/blog/react-query-meets-react-router#getquerydata--fetchquery
+    queryClient.ensureQueryData(listEntriesQueryOptions(sortBy));
 
     return {
       listEntriesQueryOptions,

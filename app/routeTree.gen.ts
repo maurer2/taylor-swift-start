@@ -11,12 +11,12 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as FilteringImport } from './routes/filtering'
+import { Route as FilteringRouteImport } from './routes/filtering/route'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
 
-const FilteringRoute = FilteringImport.update({
+const FilteringRouteRoute = FilteringRouteImport.update({
   id: '/filtering',
   path: '/filtering',
   getParentRoute: () => rootRoute,
@@ -43,7 +43,7 @@ declare module '@tanstack/react-router' {
       id: '/filtering'
       path: '/filtering'
       fullPath: '/filtering'
-      preLoaderRoute: typeof FilteringImport
+      preLoaderRoute: typeof FilteringRouteImport
       parentRoute: typeof rootRoute
     }
   }
@@ -53,18 +53,18 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/filtering': typeof FilteringRoute
+  '/filtering': typeof FilteringRouteRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/filtering': typeof FilteringRoute
+  '/filtering': typeof FilteringRouteRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/filtering': typeof FilteringRoute
+  '/filtering': typeof FilteringRouteRoute
 }
 
 export interface FileRouteTypes {
@@ -78,12 +78,12 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  FilteringRoute: typeof FilteringRoute
+  FilteringRouteRoute: typeof FilteringRouteRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  FilteringRoute: FilteringRoute,
+  FilteringRouteRoute: FilteringRouteRoute,
 }
 
 export const routeTree = rootRoute
@@ -104,7 +104,7 @@ export const routeTree = rootRoute
       "filePath": "index.tsx"
     },
     "/filtering": {
-      "filePath": "filtering.tsx"
+      "filePath": "filtering/route.tsx"
     }
   }
 }

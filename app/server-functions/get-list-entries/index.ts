@@ -70,7 +70,7 @@ export const getListEntries = createServerFn()
 
 export const listEntriesQueryOptions = (sortBy: string) =>
   queryOptions({
-    queryKey: ["list-entries", sortBy],
+    queryKey: ["list-entries", sortBy] as const,
     // key for param for server fn needs to be called "data"
     queryFn: async () => getListEntries({ data: sortBy }),
     staleTime: 60 * 1000,
