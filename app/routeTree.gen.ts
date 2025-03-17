@@ -11,10 +11,18 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as FilteringWithoutTanstackQueryRouteImport } from './routes/filtering-without-tanstack-query/route'
 import { Route as FilteringRouteImport } from './routes/filtering/route'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
+
+const FilteringWithoutTanstackQueryRouteRoute =
+  FilteringWithoutTanstackQueryRouteImport.update({
+    id: '/filtering-without-tanstack-query',
+    path: '/filtering-without-tanstack-query',
+    getParentRoute: () => rootRoute,
+  } as any)
 
 const FilteringRouteRoute = FilteringRouteImport.update({
   id: '/filtering',
@@ -46,6 +54,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FilteringRouteImport
       parentRoute: typeof rootRoute
     }
+    '/filtering-without-tanstack-query': {
+      id: '/filtering-without-tanstack-query'
+      path: '/filtering-without-tanstack-query'
+      fullPath: '/filtering-without-tanstack-query'
+      preLoaderRoute: typeof FilteringWithoutTanstackQueryRouteImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -54,36 +69,42 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/filtering': typeof FilteringRouteRoute
+  '/filtering-without-tanstack-query': typeof FilteringWithoutTanstackQueryRouteRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/filtering': typeof FilteringRouteRoute
+  '/filtering-without-tanstack-query': typeof FilteringWithoutTanstackQueryRouteRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/filtering': typeof FilteringRouteRoute
+  '/filtering-without-tanstack-query': typeof FilteringWithoutTanstackQueryRouteRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/filtering'
+  fullPaths: '/' | '/filtering' | '/filtering-without-tanstack-query'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/filtering'
-  id: '__root__' | '/' | '/filtering'
+  to: '/' | '/filtering' | '/filtering-without-tanstack-query'
+  id: '__root__' | '/' | '/filtering' | '/filtering-without-tanstack-query'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FilteringRouteRoute: typeof FilteringRouteRoute
+  FilteringWithoutTanstackQueryRouteRoute: typeof FilteringWithoutTanstackQueryRouteRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FilteringRouteRoute: FilteringRouteRoute,
+  FilteringWithoutTanstackQueryRouteRoute:
+    FilteringWithoutTanstackQueryRouteRoute,
 }
 
 export const routeTree = rootRoute
@@ -97,7 +118,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/filtering"
+        "/filtering",
+        "/filtering-without-tanstack-query"
       ]
     },
     "/": {
@@ -105,6 +127,9 @@ export const routeTree = rootRoute
     },
     "/filtering": {
       "filePath": "filtering/route.tsx"
+    },
+    "/filtering-without-tanstack-query": {
+      "filePath": "filtering-without-tanstack-query/route.tsx"
     }
   }
 }

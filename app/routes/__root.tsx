@@ -102,6 +102,16 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             Filtering
           </Link>{" "}
           <Link
+            to="/filtering-without-tanstack-query"
+            search={{ sortBy: "name" }}
+            activeProps={{
+              className: "font-bold",
+            }}
+            activeOptions={{ exact: true, includeSearch: false }}
+          >
+            Filtering without TanStack Query
+          </Link>{" "}
+          <Link
             // @ts-expect-error
             to="/this-route-does-not-exist"
             activeProps={{
