@@ -112,6 +112,16 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             Filtering without TanStack Query
           </Link>{" "}
           <Link
+            to="/filtering-prefetch-in-render"
+            search={{ sortBy: "name" }}
+            activeProps={{
+              className: "font-bold",
+            }}
+            activeOptions={{ exact: true, includeSearch: false }}
+          >
+            Filtering prefetch in render
+          </Link>{" "}
+          <Link
             // @ts-expect-error
             to="/this-route-does-not-exist"
             activeProps={{

@@ -7,7 +7,14 @@ import { routerWithQueryClient } from "@tanstack/react-router-with-query";
 
 export function createRouter() {
   // https://www.brenelz.com/posts/using-server-functions-and-tanstack-query/
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        //https://tanstack.com/query/latest/docs/framework/react/guides/suspense/#using-usequerypromise-and-reactuse-experimental
+        experimental_prefetchInRender: true,
+      },
+    },
+  });
 
   const router = createTanStackRouter({
     routeTree,
