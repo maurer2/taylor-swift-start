@@ -1,14 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-// import { useServerFn } from "@tanstack/react-start";
+import { Suspense } from "react";
 
 import {
-  listEntriesQueryOptions,
+  getListEntries,
   type ListEntry,
 } from "~/server-functions/get-list-entries";
-import { List } from "~/components/List";
-
-// import { use } from "react";
-import { Suspense } from "react";
+import { List } from "./-components/List";
 
 type RouteSearchParams = {
   sortBy: Lowercase<keyof ListEntry>;
@@ -27,22 +24,15 @@ export const Route = createFileRoute("/filtering")({
 
     return { sortBy: "country" };
   },
-  // store query options in context
-  // https://tanstack.com/query/latest/docs/framework/react/guides/prefetching#router-integration
-  beforeLoad: () => {
-    return {
-      queryOptionsListEntries: listEntriesQueryOptions,
-    };
-  },
   // https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#using-search-params-in-loaders
   loaderDeps: ({ search: { sortBy } }) => ({ sortBy }),
-  loader: async ({
-    context: { queryClient, queryOptionsListEntries },
-    deps: { sortBy },
-  }) => {
-    // https://tkdodo.eu/blog/react-query-meets-react-router#getquerydata--fetchquery
-    queryClient.ensureQueryData(queryOptionsListEntries(sortBy));
+  loader: ({ deps: { sortBy } }) => {
+    return {
+      getListEntriesPromise: getListEntries({ data: sortBy }),
+    };
   },
+  staleTime: 60_000,
+  preloadStaleTime: 60_000,
 });
 
 const sortByButtonLabels: RouteSearchParams["sortBy"][] = [
@@ -52,11 +42,7 @@ const sortByButtonLabels: RouteSearchParams["sortBy"][] = [
 ];
 
 function Filtering() {
-  // const { list } = Route.useLoaderData();
-  // const { isFetching } = Route.useMatch();
-  // const { listPromise } = Route.useLoaderData();
-
-  const { sortBy } = Route.useSearch();
+  const { getListEntriesPromise } = Route.useLoaderData();
 
   return (
     <div className="p-2">
@@ -88,7 +74,10 @@ function Filtering() {
       <hr />
 
       <Suspense fallback={<p>Loading list</p>}>
-        <List />
+        <List
+          getListEntriesPromise={getListEntriesPromise}
+          isFetching={false} // todo
+        />
       </Suspense>
     </div>
   );

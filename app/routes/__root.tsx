@@ -102,14 +102,14 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             Filtering
           </Link>{" "}
           <Link
-            to="/filtering-without-tanstack-query"
+            to="/filtering-with-tanstack-query"
             search={{ sortBy: "name" }}
             activeProps={{
               className: "font-bold",
             }}
             activeOptions={{ exact: true, includeSearch: false }}
           >
-            Filtering without TanStack Query
+            Filtering with TanStack Query
           </Link>{" "}
           <Link
             to="/filtering-prefetch-in-render"

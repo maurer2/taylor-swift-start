@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getRouteApi } from "@tanstack/react-router";
 
-const parentRoute = getRouteApi("/filtering");
+const parentRoute = getRouteApi("/filtering-with-tanstack-query");
 
 import { listEntriesQueryOptions } from "~/server-functions/get-list-entries";
 

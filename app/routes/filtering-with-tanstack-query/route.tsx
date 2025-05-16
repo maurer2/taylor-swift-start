@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Suspense } from "react";
+// import { useServerFn } from "@tanstack/react-start";
 
 import {
-  getListEntries,
+  listEntriesQueryOptions,
   type ListEntry,
 } from "~/server-functions/get-list-entries";
 import { List } from "./-components/List";
@@ -11,8 +12,8 @@ type RouteSearchParams = {
   sortBy: Lowercase<keyof ListEntry>;
 };
 
-export const Route = createFileRoute("/filtering-without-tanstack-query")({
-  component: FilteringWithoutTanstackQuery,
+export const Route = createFileRoute("/filtering-with-tanstack-query")({
+  component: FilteringWithTanstackQuery,
   validateSearch: (search): RouteSearchParams => {
     if (!Object.hasOwn(search, "sortBy") || search.sortBy === "name") {
       return { sortBy: "name" };
@@ -24,15 +25,22 @@ export const Route = createFileRoute("/filtering-without-tanstack-query")({
 
     return { sortBy: "country" };
   },
-  // https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#using-search-params-in-loaders
-  loaderDeps: ({ search: { sortBy } }) => ({ sortBy }),
-  loader: ({ deps: { sortBy } }) => {
+  // store query options in context
+  // https://tanstack.com/query/latest/docs/framework/react/guides/prefetching#router-integration
+  beforeLoad: () => {
     return {
-      getListEntriesPromise: getListEntries({ data: sortBy }),
+      queryOptionsListEntries: listEntriesQueryOptions,
     };
   },
-  staleTime: 60_000,
-  preloadStaleTime: 60_000,
+  // https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#using-search-params-in-loaders
+  loaderDeps: ({ search: { sortBy } }) => ({ sortBy }),
+  loader: async ({
+    context: { queryClient, queryOptionsListEntries },
+    deps: { sortBy },
+  }) => {
+    // https://tkdodo.eu/blog/react-query-meets-react-router#getquerydata--fetchquery
+    queryClient.ensureQueryData(queryOptionsListEntries(sortBy));
+  },
 });
 
 const sortByButtonLabels: RouteSearchParams["sortBy"][] = [
@@ -41,12 +49,16 @@ const sortByButtonLabels: RouteSearchParams["sortBy"][] = [
   "country",
 ];
 
-function FilteringWithoutTanstackQuery() {
-  const { getListEntriesPromise } = Route.useLoaderData();
+function FilteringWithTanstackQuery() {
+  // const { list } = Route.useLoaderData();
+  // const { isFetching } = Route.useMatch();
+  // const { listPromise } = Route.useLoaderData();
+
+  const { sortBy } = Route.useSearch();
 
   return (
     <div className="p-2">
-      <h3 className="mb-4">Filtering</h3>
+      <h3 className="mb-4">Filtering with Tanstack Query</h3>
 
       <search className="mb-4">
         <h4 id="filter-sort-by-title">Sort by</h4>
@@ -74,10 +86,7 @@ function FilteringWithoutTanstackQuery() {
       <hr />
 
       <Suspense fallback={<p>Loading list</p>}>
-        <List
-          getListEntriesPromise={getListEntriesPromise}
-          isFetching={false} // todo
-        />
+        <List />
       </Suspense>
     </div>
   );

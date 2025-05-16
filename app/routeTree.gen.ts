@@ -11,17 +11,17 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as FilteringWithoutTanstackQueryRouteImport } from './routes/filtering-without-tanstack-query/route'
+import { Route as FilteringWithTanstackQueryRouteImport } from './routes/filtering-with-tanstack-query/route'
 import { Route as FilteringPrefetchInRenderRouteImport } from './routes/filtering-prefetch-in-render/route'
 import { Route as FilteringRouteImport } from './routes/filtering/route'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
 
-const FilteringWithoutTanstackQueryRouteRoute =
-  FilteringWithoutTanstackQueryRouteImport.update({
-    id: '/filtering-without-tanstack-query',
-    path: '/filtering-without-tanstack-query',
+const FilteringWithTanstackQueryRouteRoute =
+  FilteringWithTanstackQueryRouteImport.update({
+    id: '/filtering-with-tanstack-query',
+    path: '/filtering-with-tanstack-query',
     getParentRoute: () => rootRoute,
   } as any)
 
@@ -69,11 +69,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FilteringPrefetchInRenderRouteImport
       parentRoute: typeof rootRoute
     }
-    '/filtering-without-tanstack-query': {
-      id: '/filtering-without-tanstack-query'
-      path: '/filtering-without-tanstack-query'
-      fullPath: '/filtering-without-tanstack-query'
-      preLoaderRoute: typeof FilteringWithoutTanstackQueryRouteImport
+    '/filtering-with-tanstack-query': {
+      id: '/filtering-with-tanstack-query'
+      path: '/filtering-with-tanstack-query'
+      fullPath: '/filtering-with-tanstack-query'
+      preLoaderRoute: typeof FilteringWithTanstackQueryRouteImport
       parentRoute: typeof rootRoute
     }
   }
@@ -85,14 +85,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/filtering': typeof FilteringRouteRoute
   '/filtering-prefetch-in-render': typeof FilteringPrefetchInRenderRouteRoute
-  '/filtering-without-tanstack-query': typeof FilteringWithoutTanstackQueryRouteRoute
+  '/filtering-with-tanstack-query': typeof FilteringWithTanstackQueryRouteRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/filtering': typeof FilteringRouteRoute
   '/filtering-prefetch-in-render': typeof FilteringPrefetchInRenderRouteRoute
-  '/filtering-without-tanstack-query': typeof FilteringWithoutTanstackQueryRouteRoute
+  '/filtering-with-tanstack-query': typeof FilteringWithTanstackQueryRouteRoute
 }
 
 export interface FileRoutesById {
@@ -100,7 +100,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/filtering': typeof FilteringRouteRoute
   '/filtering-prefetch-in-render': typeof FilteringPrefetchInRenderRouteRoute
-  '/filtering-without-tanstack-query': typeof FilteringWithoutTanstackQueryRouteRoute
+  '/filtering-with-tanstack-query': typeof FilteringWithTanstackQueryRouteRoute
 }
 
 export interface FileRouteTypes {
@@ -109,19 +109,19 @@ export interface FileRouteTypes {
     | '/'
     | '/filtering'
     | '/filtering-prefetch-in-render'
-    | '/filtering-without-tanstack-query'
+    | '/filtering-with-tanstack-query'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/filtering'
     | '/filtering-prefetch-in-render'
-    | '/filtering-without-tanstack-query'
+    | '/filtering-with-tanstack-query'
   id:
     | '__root__'
     | '/'
     | '/filtering'
     | '/filtering-prefetch-in-render'
-    | '/filtering-without-tanstack-query'
+    | '/filtering-with-tanstack-query'
   fileRoutesById: FileRoutesById
 }
 
@@ -129,15 +129,14 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FilteringRouteRoute: typeof FilteringRouteRoute
   FilteringPrefetchInRenderRouteRoute: typeof FilteringPrefetchInRenderRouteRoute
-  FilteringWithoutTanstackQueryRouteRoute: typeof FilteringWithoutTanstackQueryRouteRoute
+  FilteringWithTanstackQueryRouteRoute: typeof FilteringWithTanstackQueryRouteRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FilteringRouteRoute: FilteringRouteRoute,
   FilteringPrefetchInRenderRouteRoute: FilteringPrefetchInRenderRouteRoute,
-  FilteringWithoutTanstackQueryRouteRoute:
-    FilteringWithoutTanstackQueryRouteRoute,
+  FilteringWithTanstackQueryRouteRoute: FilteringWithTanstackQueryRouteRoute,
 }
 
 export const routeTree = rootRoute
@@ -153,7 +152,7 @@ export const routeTree = rootRoute
         "/",
         "/filtering",
         "/filtering-prefetch-in-render",
-        "/filtering-without-tanstack-query"
+        "/filtering-with-tanstack-query"
       ]
     },
     "/": {
@@ -165,8 +164,8 @@ export const routeTree = rootRoute
     "/filtering-prefetch-in-render": {
       "filePath": "filtering-prefetch-in-render/route.tsx"
     },
-    "/filtering-without-tanstack-query": {
-      "filePath": "filtering-without-tanstack-query/route.tsx"
+    "/filtering-with-tanstack-query": {
+      "filePath": "filtering-with-tanstack-query/route.tsx"
     }
   }
 }
