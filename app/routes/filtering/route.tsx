@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute, Link, ErrorComponent } from '@tanstack/react-router';
 import { Suspense } from 'react';
 
 import { List } from './-components/List';
@@ -13,21 +13,43 @@ export const Route = createFileRoute('/filtering')({
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   component: Filtering,
   validateSearch: (search): RouteSearchParams => {
-    if (!Object.hasOwn(search, 'sortBy') || search.sortBy === 'name') {
-      return { sortBy: 'name' };
+    if (!Object.hasOwn(search, 'sortBy')) {
+      throw new Error('Missing sortBy parameter');
     }
 
-    if (search.sortBy === 'abbreviation') {
-      return { sortBy: 'abbreviation' };
+    switch (search.sortBy) {
+      case 'name':
+      case 'abbreviation':
+      case 'country':
+        return { sortBy: search.sortBy };
+      default:
+        throw new Error('Invalid sortBy parameter'); // briefly shown // https://github.com/TanStack/router/issues/3711
     }
-
-    return { sortBy: 'country' };
   },
   // https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#using-search-params-in-loaders
   loaderDeps: ({ search: { sortBy } }) => ({ sortBy }),
-  loader: ({ deps: { sortBy } }) => ({
-    getListEntriesPromise: getListEntries({ data: sortBy }),
-  }),
+  // eslint-disable-next-line arrow-body-style
+  loader: async ({ deps: { sortBy } }) => {
+    //  const dummyList = [
+    //   {
+    //     name: 'Aberdeenshire',
+    //     abbreviation: 'ABD',
+    //     country: 'Scotland',
+    //   },
+    // ];
+
+    // return {
+    //   getListEntriesPromise: Promise.resolve(dummyList),
+    // };
+
+    return {
+      getListEntriesPromise: getListEntries({ data: sortBy }),
+    };
+  },
+  // onCatch(error) {
+  //   console.error('Error in route loader:', error);
+  // },
+  // errorComponent: (error) => <ErrorComponent error={new Error('Error', { cause: error.error })} />,
   staleTime: 60_000,
   preloadStaleTime: 60_000,
 });
@@ -35,7 +57,7 @@ export const Route = createFileRoute('/filtering')({
 const sortByButtonLabels: RouteSearchParams['sortBy'][] = ['name', 'abbreviation', 'country'];
 
 function Filtering() {
-  const { getListEntriesPromise } = Route.useLoaderData();
+  const { getListEntriesPromise } = Route.useLoaderData(); // https://github.com/TanStack/router/issues/1553#issuecomment-2117127131
 
   return (
     <div className="p-2">
