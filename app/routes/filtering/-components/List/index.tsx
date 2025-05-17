@@ -1,6 +1,6 @@
-import { use } from "react";
+import { use } from 'react';
 
-import type { ListEntry } from "~/server-functions/get-list-entries";
+import type { ListEntry } from '~/server-functions/get-list-entries';
 
 type ListProps = {
   getListEntriesPromise: Promise<ListEntry[]>;

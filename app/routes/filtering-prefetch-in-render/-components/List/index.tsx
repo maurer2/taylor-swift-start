@@ -1,7 +1,7 @@
-import { use } from "react";
-import type { UseQueryResult } from "@tanstack/react-query";
+import { use } from 'react';
+import type { UseQueryResult } from '@tanstack/react-query';
 
-import type { ListEntry } from "~/server-functions/get-list-entries";
+import type { ListEntry } from '~/server-functions/get-list-entries';
 
 type ListProps = {
   listEntriesQuery: UseQueryResult<ListEntry[]>;
