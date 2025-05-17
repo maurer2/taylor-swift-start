@@ -2,7 +2,7 @@ import path from 'node:path';
 
 import { includeIgnoreFile } from '@eslint/compat';
 import js from '@eslint/js';
-import { configs, plugins } from 'eslint-config-airbnb-extended';
+import { configs, plugins } from 'eslint-config-airbnb-extended'; // https://www.npmjs.com/package/eslint-config-airbnb-extended
 import { rules as prettierConfigRules } from 'eslint-config-prettier';
 import prettierPlugin from 'eslint-plugin-prettier';
 
@@ -25,6 +25,13 @@ const jsConfig = [
   {
     rules: {
       'import-x/prefer-default-export': 'off',
+      'import-x/order': [
+        'error',
+        {
+          'newlines-between': 'always-and-inside-groups',
+          consolidateIslands: 'never',
+        },
+      ],
     },
   },
 ];

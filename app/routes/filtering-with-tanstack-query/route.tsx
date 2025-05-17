@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { Suspense } from 'react';
-// import { useServerFn } from "@tanstack/react-start";
+
+import { List } from './-components/List';
 
 import { listEntriesQueryOptions, type ListEntry } from '~/server-functions/get-list-entries';
-import { List } from './-components/List';
 
 type RouteSearchParams = {
   sortBy: Lowercase<keyof ListEntry>;
