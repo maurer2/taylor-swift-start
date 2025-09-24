@@ -23,7 +23,7 @@ export const Route = createFileRoute('/filtering')({
       case 'country':
         return { sortBy: search.sortBy };
       default:
-        throw new Error('Invalid sortBy parameter'); // briefly shown // https://github.com/TanStack/router/issues/3711
+        throw new Error('Invalid sortBy parameter'); // only briefly shown // https://github.com/TanStack/router/issues/3711
     }
   },
   // https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#using-search-params-in-loaders
