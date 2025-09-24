@@ -1,5 +1,6 @@
 import { createFileRoute, Link, ErrorComponent } from '@tanstack/react-router';
 import { Suspense } from 'react';
+import { z } from 'zod';
 
 import { List } from './-components/List';
 
@@ -9,23 +10,14 @@ type RouteSearchParams = {
   sortBy: Lowercase<keyof ListEntry>;
 };
 
+const routeSearchParams = z.object({
+  sortBy: z.enum(['name', 'abbreviation', 'country']),
+});
+
 export const Route = createFileRoute('/filtering')({
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   component: Filtering,
-  validateSearch: (search): RouteSearchParams => {
-    if (!Object.hasOwn(search, 'sortBy')) {
-      throw new Error('Missing sortBy parameter');
-    }
-
-    switch (search.sortBy) {
-      case 'name':
-      case 'abbreviation':
-      case 'country':
-        return { sortBy: search.sortBy };
-      default:
-        throw new Error('Invalid sortBy parameter'); // briefly shown // https://github.com/TanStack/router/issues/3711
-    }
-  },
+  validateSearch: routeSearchParams,
   // https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#using-search-params-in-loaders
   loaderDeps: ({ search: { sortBy } }) => ({ sortBy }),
   // eslint-disable-next-line arrow-body-style
@@ -49,7 +41,10 @@ export const Route = createFileRoute('/filtering')({
   // onCatch(error) {
   //   console.error('Error in route loader:', error);
   // },
-  // errorComponent: (error) => <ErrorComponent error={new Error('Error', { cause: error.error })} />,
+  // errorComponent: (error) => {
+  //   console.log(error);
+  //   return <ErrorComponent error={new Error('Error', { cause: error.error })} />;
+  // },
   staleTime: 60_000,
   preloadStaleTime: 60_000,
 });
