@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 
 import { List } from './-components/List';
 
-import { getListEntries, type ListEntry } from '~/server-functions/get-list-entries';
+import { getListEntries, type ListEntry } from 'src/server-functions/get-list-entries';
 
 type RouteSearchParams = {
   sortBy: Lowercase<keyof ListEntry>;

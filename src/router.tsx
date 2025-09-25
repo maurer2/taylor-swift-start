@@ -1,4 +1,4 @@
-import { createRouter as createTanStackRouter } from '@tanstack/react-router';
+import { createRouter } from '@tanstack/react-router';
 import { QueryClient } from '@tanstack/react-query';
 import { routerWithQueryClient } from '@tanstack/react-router-with-query';
 
@@ -6,7 +6,7 @@ import { routeTree } from './routeTree.gen';
 import { DefaultCatchBoundary } from './components/DefaultCatchBoundary';
 import { NotFound } from './components/NotFound';
 
-export function createRouter() {
+export function getRouter() {
   // https://www.brenelz.com/posts/using-server-functions-and-tanstack-query/
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -17,7 +17,7 @@ export function createRouter() {
     },
   });
 
-  const router = createTanStackRouter({
+  const router = createRouter({
     routeTree,
     defaultPreload: 'intent',
     defaultErrorComponent: DefaultCatchBoundary,
@@ -30,10 +30,4 @@ export function createRouter() {
   });
 
   return routerWithQueryClient(router, queryClient);
-}
-
-declare module '@tanstack/react-router' {
-  interface Register {
-    router: ReturnType<typeof createRouter>;
-  }
 }

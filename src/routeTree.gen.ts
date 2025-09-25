@@ -8,78 +8,34 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-// Import Routes
-
-import { Route as rootRoute } from './routes/__root'
-import { Route as FilteringWithTanstackQueryRouteImport } from './routes/filtering-with-tanstack-query/route'
-import { Route as FilteringPrefetchInRenderRouteImport } from './routes/filtering-prefetch-in-render/route'
-import { Route as FilteringRouteImport } from './routes/filtering/route'
-import { Route as IndexImport } from './routes/index'
-
-// Create/Update Routes
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as FilteringWithTanstackQueryRouteRouteImport } from './routes/filtering-with-tanstack-query/route'
+import { Route as FilteringPrefetchInRenderRouteRouteImport } from './routes/filtering-prefetch-in-render/route'
+import { Route as FilteringRouteRouteImport } from './routes/filtering/route'
+import { Route as IndexRouteImport } from './routes/index'
 
 const FilteringWithTanstackQueryRouteRoute =
-  FilteringWithTanstackQueryRouteImport.update({
+  FilteringWithTanstackQueryRouteRouteImport.update({
     id: '/filtering-with-tanstack-query',
     path: '/filtering-with-tanstack-query',
-    getParentRoute: () => rootRoute,
+    getParentRoute: () => rootRouteImport,
   } as any)
-
 const FilteringPrefetchInRenderRouteRoute =
-  FilteringPrefetchInRenderRouteImport.update({
+  FilteringPrefetchInRenderRouteRouteImport.update({
     id: '/filtering-prefetch-in-render',
     path: '/filtering-prefetch-in-render',
-    getParentRoute: () => rootRoute,
+    getParentRoute: () => rootRouteImport,
   } as any)
-
-const FilteringRouteRoute = FilteringRouteImport.update({
+const FilteringRouteRoute = FilteringRouteRouteImport.update({
   id: '/filtering',
   path: '/filtering',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const IndexRoute = IndexImport.update({
+const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-// Populate the FileRoutesByPath interface
-
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/filtering': {
-      id: '/filtering'
-      path: '/filtering'
-      fullPath: '/filtering'
-      preLoaderRoute: typeof FilteringRouteImport
-      parentRoute: typeof rootRoute
-    }
-    '/filtering-prefetch-in-render': {
-      id: '/filtering-prefetch-in-render'
-      path: '/filtering-prefetch-in-render'
-      fullPath: '/filtering-prefetch-in-render'
-      preLoaderRoute: typeof FilteringPrefetchInRenderRouteImport
-      parentRoute: typeof rootRoute
-    }
-    '/filtering-with-tanstack-query': {
-      id: '/filtering-with-tanstack-query'
-      path: '/filtering-with-tanstack-query'
-      fullPath: '/filtering-with-tanstack-query'
-      preLoaderRoute: typeof FilteringWithTanstackQueryRouteImport
-      parentRoute: typeof rootRoute
-    }
-  }
-}
-
-// Create and export the route tree
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -87,22 +43,19 @@ export interface FileRoutesByFullPath {
   '/filtering-prefetch-in-render': typeof FilteringPrefetchInRenderRouteRoute
   '/filtering-with-tanstack-query': typeof FilteringWithTanstackQueryRouteRoute
 }
-
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/filtering': typeof FilteringRouteRoute
   '/filtering-prefetch-in-render': typeof FilteringPrefetchInRenderRouteRoute
   '/filtering-with-tanstack-query': typeof FilteringWithTanstackQueryRouteRoute
 }
-
 export interface FileRoutesById {
-  __root__: typeof rootRoute
+  __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/filtering': typeof FilteringRouteRoute
   '/filtering-prefetch-in-render': typeof FilteringPrefetchInRenderRouteRoute
   '/filtering-with-tanstack-query': typeof FilteringWithTanstackQueryRouteRoute
 }
-
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
@@ -124,12 +77,44 @@ export interface FileRouteTypes {
     | '/filtering-with-tanstack-query'
   fileRoutesById: FileRoutesById
 }
-
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FilteringRouteRoute: typeof FilteringRouteRoute
   FilteringPrefetchInRenderRouteRoute: typeof FilteringPrefetchInRenderRouteRoute
   FilteringWithTanstackQueryRouteRoute: typeof FilteringWithTanstackQueryRouteRoute
+}
+
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/filtering-with-tanstack-query': {
+      id: '/filtering-with-tanstack-query'
+      path: '/filtering-with-tanstack-query'
+      fullPath: '/filtering-with-tanstack-query'
+      preLoaderRoute: typeof FilteringWithTanstackQueryRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/filtering-prefetch-in-render': {
+      id: '/filtering-prefetch-in-render'
+      path: '/filtering-prefetch-in-render'
+      fullPath: '/filtering-prefetch-in-render'
+      preLoaderRoute: typeof FilteringPrefetchInRenderRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/filtering': {
+      id: '/filtering'
+      path: '/filtering'
+      fullPath: '/filtering'
+      preLoaderRoute: typeof FilteringRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+  }
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -138,35 +123,16 @@ const rootRouteChildren: RootRouteChildren = {
   FilteringPrefetchInRenderRouteRoute: FilteringPrefetchInRenderRouteRoute,
   FilteringWithTanstackQueryRouteRoute: FilteringWithTanstackQueryRouteRoute,
 }
-
-export const routeTree = rootRoute
+export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
 
-/* ROUTE_MANIFEST_START
-{
-  "routes": {
-    "__root__": {
-      "filePath": "__root.tsx",
-      "children": [
-        "/",
-        "/filtering",
-        "/filtering-prefetch-in-render",
-        "/filtering-with-tanstack-query"
-      ]
-    },
-    "/": {
-      "filePath": "index.tsx"
-    },
-    "/filtering": {
-      "filePath": "filtering/route.tsx"
-    },
-    "/filtering-prefetch-in-render": {
-      "filePath": "filtering-prefetch-in-render/route.tsx"
-    },
-    "/filtering-with-tanstack-query": {
-      "filePath": "filtering-with-tanstack-query/route.tsx"
-    }
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.tsx'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
   }
 }
-ROUTE_MANIFEST_END */

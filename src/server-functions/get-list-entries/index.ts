@@ -37,7 +37,7 @@ const sortListByField = (
 };
 
 export const getListEntries = createServerFn()
-  .validator((sortBy: unknown): GetListEntriesParams => {
+  .inputValidator((sortBy: unknown): GetListEntriesParams => {
     if (sortBy === null || typeof sortBy !== 'string') {
       throw new Error('Invalid or missing sortBy parameter');
     }

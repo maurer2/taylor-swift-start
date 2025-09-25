@@ -14,7 +14,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { DefaultCatchBoundary } from '~/components/DefaultCatchBoundary';
 import { NotFound } from '~/components/NotFound';
-import appCss from '~/styles/app.css?url';
+// import appCss from '~/styles/app.css?url';
 import { seo } from '~/utils/seo';
 
 export const Route = createRootRouteWithContext<{
@@ -35,7 +35,8 @@ export const Route = createRootRouteWithContext<{
       }),
     ],
     links: [
-      { rel: 'stylesheet', href: appCss },
+      // { rel: 'stylesheet', href: appCss },
+      { rel: 'stylesheet' },
       {
         rel: 'apple-touch-icon',
         sizes: '180x180',
@@ -121,15 +122,14 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           >
             Filtering prefetch in render
           </Link>{' '}
-          <Link
-            // @ts-expect-error
+          {/* <Link
             to="/this-route-does-not-exist"
             activeProps={{
               className: 'font-bold',
             }}
           >
             404
-          </Link>
+          </Link> */}
         </div>
         <hr />
         {children}
