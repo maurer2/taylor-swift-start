@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable no-octal-escape */
 import {
@@ -12,10 +13,10 @@ import * as React from 'react';
 import { QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-import { DefaultCatchBoundary } from '~/components/DefaultCatchBoundary';
-import { NotFound } from '~/components/NotFound';
-// import appCss from '~/styles/app.css?url';
-import { seo } from '~/utils/seo';
+import { DefaultCatchBoundary } from 'src/components/DefaultCatchBoundary';
+import { NotFound } from 'src/components/NotFound';
+import appCss from '../styles/app.css?url';
+import { seo } from 'src/utils/seo';
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
@@ -35,8 +36,8 @@ export const Route = createRootRouteWithContext<{
       }),
     ],
     links: [
-      // { rel: 'stylesheet', href: appCss },
-      { rel: 'stylesheet' },
+      { rel: 'stylesheet', href: appCss },
+      // { rel: 'stylesheet' },
       {
         rel: 'apple-touch-icon',
         sizes: '180x180',
