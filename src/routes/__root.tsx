@@ -9,13 +9,15 @@ import {
   createRootRouteWithContext,
 } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
-import * as React from 'react';
+import type { PropsWithChildren } from 'react';
 import { QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
+// eslint-disable-next-line import-x/no-unresolved
+import appCss from '../styles/app.css?url';
+
 import { DefaultCatchBoundary } from 'src/components/DefaultCatchBoundary';
 import { NotFound } from 'src/components/NotFound';
-import appCss from '../styles/app.css?url';
 import { seo } from 'src/utils/seo';
 
 export const Route = createRootRouteWithContext<{
@@ -37,7 +39,6 @@ export const Route = createRootRouteWithContext<{
     ],
     links: [
       { rel: 'stylesheet', href: appCss },
-      // { rel: 'stylesheet' },
       {
         rel: 'apple-touch-icon',
         sizes: '180x180',
@@ -76,14 +77,14 @@ function RootComponent() {
   );
 }
 
-function RootDocument({ children }: { children: React.ReactNode }) {
+function RootDocument({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <head>
         <HeadContent />
       </head>
       <body>
-        <div className="flex gap-2 p-2 text-lg [&>*:not(:first-child)]:before:mr-2 [&>*:not(:first-child)]:before:content-['\00B7']">
+        <nav className="flex gap-2 p-2 text-lg [&>*:not(:first-child)]:before:mr-2 [&>*:not(:first-child)]:before:content-['\00B7']">
           <Link
             to="/"
             activeProps={{
@@ -131,7 +132,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           >
             404
           </Link> */}
-        </div>
+        </nav>
         <hr />
         {children}
         <TanStackRouterDevtools position="bottom-right" />

@@ -1,5 +1,4 @@
-import { createMiddleware, createStart } from '@tanstack/react-start';
-import { createSerializationAdapter } from '@tanstack/react-router';
+import { createStart } from '@tanstack/react-start';
 
 declare module '@tanstack/react-start' {
   interface Register {
@@ -11,18 +10,14 @@ declare module '@tanstack/react-start' {
   }
 }
 
-export const startInstance = createStart(() => {
-  return {
-    defaultSsr: true,
-  };
-});
+export const startInstance = createStart(() => ({
+  defaultSsr: true,
+}));
 
-startInstance.createMiddleware().server(({ next, context }) => {
-  context.fromFetch;
-
-  return next({
+startInstance.createMiddleware().server(({ next }) =>
+  next({
     context: {
       fromStartInstanceMw: true,
     },
-  });
-});
+  }),
+);

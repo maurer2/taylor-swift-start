@@ -53,8 +53,12 @@ export const getListEntries = createServerFn()
   })
   .handler(async ({ data: { sortBy } }) => {
     const promises = await Promise.all([
-      new Promise<ListEntry[]>((resolve) => resolve(sortListByField(listJSON, sortBy))),
-      new Promise<void>((resolve) => setTimeout(() => resolve(), MIN_DURATION)),
+      new Promise<ListEntry[]>((resolve) => {
+        resolve(sortListByField(listJSON, sortBy));
+      }),
+      new Promise<void>((resolve) => {
+        setTimeout(() => resolve(), MIN_DURATION);
+      }),
     ]).catch((error: unknown) => {
       throw new Error('Error', { cause: error });
     });
@@ -65,7 +69,7 @@ export const getListEntries = createServerFn()
 export const listEntriesQueryOptions = (sortBy: string) =>
   queryOptions({
     queryKey: ['list-entries', sortBy] as const,
-    // key for param for server function needs to be  "data"
+    // key for params of server function needs to be "data"
     queryFn: async () => getListEntries({ data: sortBy }),
     staleTime: 60 * 1000,
     refetchOnWindowFocus: false,
