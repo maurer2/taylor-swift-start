@@ -12,9 +12,9 @@ type RouteSearchParams = {
   sortBy: SortByValue;
 };
 
-export const Route = createFileRoute('/filtering-with-tanstack-query')({
+export const Route = createFileRoute('/filtering-with-usesuspense-query')({
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  component: FilteringWithTanstackQuery,
+  component: FilteringWithUseSuspenseQuery,
   validateSearch: (search): RouteSearchParams => {
     if (!Object.hasOwn(search, 'sortBy') || search.sortBy === 'name') {
       return { sortBy: 'name' };
@@ -44,7 +44,7 @@ export const Route = createFileRoute('/filtering-with-tanstack-query')({
 
 const sortByButtonLabels: RouteSearchParams['sortBy'][] = ['name', 'abbreviation', 'country'];
 
-function FilteringWithTanstackQuery() {
+function FilteringWithUseSuspenseQuery() {
   // const { list } = Route.useLoaderData();
   // const { isFetching } = Route.useMatch();
   // const { listPromise } = Route.useLoaderData();
@@ -52,13 +52,15 @@ function FilteringWithTanstackQuery() {
 
   return (
     <div className="p-2">
-      <h3 className="mb-4">Filtering with Tanstack Query</h3>
+      <section className="max-w-[80ch]">
+        <h3 className="mb-4">Filtering with &quot;useSuspenseQuery&quot;</h3>
 
-      <p className="mb-2" id="filter-sort-by-description">
-        Filters data on the server via &quot;createServerFn&quot; and url params with prefetching of
-        the current page. Doesn&apos;t block page rendering while data is being fetched. Uses the
-        &quot;useSuspenseQuery&quot;-method of Tanstack Query.
-      </p>
+        <p className="mb-2" id="filter-sort-by-description">
+          Filters data on the server via &quot;createServerFn&quot; and url params with prefetching
+          of the current page. Doesn&apos;t block page rendering while data is being fetched. Uses
+          the &quot;useSuspenseQuery&quot;-method of TanStack Query.
+        </p>
+      </section>
 
       <search className="mb-4">
         <h4 id="filter-sort-by-title">Sort by</h4>

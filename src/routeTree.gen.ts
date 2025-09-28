@@ -9,21 +9,21 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as FilteringWithTanstackQueryRouteRouteImport } from './routes/filtering-with-tanstack-query/route'
-import { Route as FilteringPrefetchInRenderRouteRouteImport } from './routes/filtering-prefetch-in-render/route'
+import { Route as FilteringWithUsesuspenseQueryRouteRouteImport } from './routes/filtering-with-usesuspense-query/route'
+import { Route as FilteringWithUsequeryPromiseRouteRouteImport } from './routes/filtering-with-usequery-promise/route'
 import { Route as FilteringRouteRouteImport } from './routes/filtering/route'
 import { Route as IndexRouteImport } from './routes/index'
 
-const FilteringWithTanstackQueryRouteRoute =
-  FilteringWithTanstackQueryRouteRouteImport.update({
-    id: '/filtering-with-tanstack-query',
-    path: '/filtering-with-tanstack-query',
+const FilteringWithUsesuspenseQueryRouteRoute =
+  FilteringWithUsesuspenseQueryRouteRouteImport.update({
+    id: '/filtering-with-usesuspense-query',
+    path: '/filtering-with-usesuspense-query',
     getParentRoute: () => rootRouteImport,
   } as any)
-const FilteringPrefetchInRenderRouteRoute =
-  FilteringPrefetchInRenderRouteRouteImport.update({
-    id: '/filtering-prefetch-in-render',
-    path: '/filtering-prefetch-in-render',
+const FilteringWithUsequeryPromiseRouteRoute =
+  FilteringWithUsequeryPromiseRouteRouteImport.update({
+    id: '/filtering-with-usequery-promise',
+    path: '/filtering-with-usequery-promise',
     getParentRoute: () => rootRouteImport,
   } as any)
 const FilteringRouteRoute = FilteringRouteRouteImport.update({
@@ -40,64 +40,64 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/filtering': typeof FilteringRouteRoute
-  '/filtering-prefetch-in-render': typeof FilteringPrefetchInRenderRouteRoute
-  '/filtering-with-tanstack-query': typeof FilteringWithTanstackQueryRouteRoute
+  '/filtering-with-usequery-promise': typeof FilteringWithUsequeryPromiseRouteRoute
+  '/filtering-with-usesuspense-query': typeof FilteringWithUsesuspenseQueryRouteRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/filtering': typeof FilteringRouteRoute
-  '/filtering-prefetch-in-render': typeof FilteringPrefetchInRenderRouteRoute
-  '/filtering-with-tanstack-query': typeof FilteringWithTanstackQueryRouteRoute
+  '/filtering-with-usequery-promise': typeof FilteringWithUsequeryPromiseRouteRoute
+  '/filtering-with-usesuspense-query': typeof FilteringWithUsesuspenseQueryRouteRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/filtering': typeof FilteringRouteRoute
-  '/filtering-prefetch-in-render': typeof FilteringPrefetchInRenderRouteRoute
-  '/filtering-with-tanstack-query': typeof FilteringWithTanstackQueryRouteRoute
+  '/filtering-with-usequery-promise': typeof FilteringWithUsequeryPromiseRouteRoute
+  '/filtering-with-usesuspense-query': typeof FilteringWithUsesuspenseQueryRouteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/filtering'
-    | '/filtering-prefetch-in-render'
-    | '/filtering-with-tanstack-query'
+    | '/filtering-with-usequery-promise'
+    | '/filtering-with-usesuspense-query'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/filtering'
-    | '/filtering-prefetch-in-render'
-    | '/filtering-with-tanstack-query'
+    | '/filtering-with-usequery-promise'
+    | '/filtering-with-usesuspense-query'
   id:
     | '__root__'
     | '/'
     | '/filtering'
-    | '/filtering-prefetch-in-render'
-    | '/filtering-with-tanstack-query'
+    | '/filtering-with-usequery-promise'
+    | '/filtering-with-usesuspense-query'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FilteringRouteRoute: typeof FilteringRouteRoute
-  FilteringPrefetchInRenderRouteRoute: typeof FilteringPrefetchInRenderRouteRoute
-  FilteringWithTanstackQueryRouteRoute: typeof FilteringWithTanstackQueryRouteRoute
+  FilteringWithUsequeryPromiseRouteRoute: typeof FilteringWithUsequeryPromiseRouteRoute
+  FilteringWithUsesuspenseQueryRouteRoute: typeof FilteringWithUsesuspenseQueryRouteRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/filtering-with-tanstack-query': {
-      id: '/filtering-with-tanstack-query'
-      path: '/filtering-with-tanstack-query'
-      fullPath: '/filtering-with-tanstack-query'
-      preLoaderRoute: typeof FilteringWithTanstackQueryRouteRouteImport
+    '/filtering-with-usesuspense-query': {
+      id: '/filtering-with-usesuspense-query'
+      path: '/filtering-with-usesuspense-query'
+      fullPath: '/filtering-with-usesuspense-query'
+      preLoaderRoute: typeof FilteringWithUsesuspenseQueryRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/filtering-prefetch-in-render': {
-      id: '/filtering-prefetch-in-render'
-      path: '/filtering-prefetch-in-render'
-      fullPath: '/filtering-prefetch-in-render'
-      preLoaderRoute: typeof FilteringPrefetchInRenderRouteRouteImport
+    '/filtering-with-usequery-promise': {
+      id: '/filtering-with-usequery-promise'
+      path: '/filtering-with-usequery-promise'
+      fullPath: '/filtering-with-usequery-promise'
+      preLoaderRoute: typeof FilteringWithUsequeryPromiseRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/filtering': {
@@ -120,8 +120,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FilteringRouteRoute: FilteringRouteRoute,
-  FilteringPrefetchInRenderRouteRoute: FilteringPrefetchInRenderRouteRoute,
-  FilteringWithTanstackQueryRouteRoute: FilteringWithTanstackQueryRouteRoute,
+  FilteringWithUsequeryPromiseRouteRoute:
+    FilteringWithUsequeryPromiseRouteRoute,
+  FilteringWithUsesuspenseQueryRouteRoute:
+    FilteringWithUsesuspenseQueryRouteRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

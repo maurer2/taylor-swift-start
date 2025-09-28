@@ -3,7 +3,7 @@ import { getRouteApi } from '@tanstack/react-router';
 
 import { listEntriesQueryOptions } from 'src/server-functions/get-list-entries';
 
-const parentRoute = getRouteApi('/filtering-with-tanstack-query');
+const parentRoute = getRouteApi('/filtering-with-usesuspense-query');
 
 export function List() {
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion

@@ -105,24 +105,24 @@ function RootDocument({ children }: PropsWithChildren) {
             Filtering
           </Link>{' '}
           <Link
-            to="/filtering-with-tanstack-query"
+            to="/filtering-with-usesuspense-query"
             search={{ sortBy: 'name' }}
             activeProps={{
               className: 'font-bold',
             }}
             activeOptions={{ exact: true, includeSearch: false }}
           >
-            Filtering with TanStack Query
+            Filtering with useSuspenseQuery
           </Link>{' '}
           <Link
-            to="/filtering-prefetch-in-render"
+            to="/filtering-with-usequery-promise"
             search={{ sortBy: 'name' }}
             activeProps={{
               className: 'font-bold',
             }}
             activeOptions={{ exact: true, includeSearch: false }}
           >
-            Filtering prefetch in render
+            Filtering with useQuery().promise
           </Link>{' '}
           {/* <Link
             to="/this-route-does-not-exist"

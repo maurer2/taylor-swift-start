@@ -12,9 +12,9 @@ type RouteSearchParams = {
   sortBy: SortByValue;
 };
 
-export const Route = createFileRoute('/filtering-prefetch-in-render')({
+export const Route = createFileRoute('/filtering-with-usequery-promise')({
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  component: FilteringPrefetchInRender,
+  component: FilteringWithUseQueryPromise,
   validateSearch: (search): RouteSearchParams => {
     if (!Object.hasOwn(search, 'sortBy') || search.sortBy === 'name') {
       return { sortBy: 'name' };
@@ -43,23 +43,25 @@ export const Route = createFileRoute('/filtering-prefetch-in-render')({
 
 const sortByButtonLabels: RouteSearchParams['sortBy'][] = ['name', 'abbreviation', 'country'];
 
-function FilteringPrefetchInRender() {
+function FilteringWithUseQueryPromise() {
   const { sortBy } = Route.useSearch();
   const listEntriesQuery = useQuery(listEntriesQueryOptions(sortBy));
 
   return (
     <div className="p-2">
-      <h3 className="mb-4">Filtering prefetch in render</h3>
+      <section className="max-w-[80ch]">
+        <h3 className="mb-4">Filtering with &quot;useQuery().promise&quot;</h3>
 
-      <p className="mb-2" id="filter-sort-by-description">
-        Filters data on the server via &quot;createServerFn&quot; and url params with prefetching of
-        the current page. Doesn&apos;t block page rendering while data is being fetched. Uses the
-        standard &quot;useQuery&quot;-method with &quot;use()&quot; and the experimental
-        <a href="https://tanstack.com/query/latest/docs/framework/react/guides/suspense#using-usequerypromise-and-reactuse-experimental">
-          &quot;query.promise&quot;-feature
-        </a>{' '}
-        of Tanstack Query.
-      </p>
+        <p className="mb-2" id="filter-sort-by-description">
+          Filters data on the server via &quot;createServerFn&quot; and url params with prefetching
+          of the current page. Doesn&apos;t block page rendering while data is being fetched. Uses
+          the standard &quot;useQuery&quot;-method with &quot;use()&quot; and the experimental
+          <a href="https://tanstack.com/query/latest/docs/framework/react/guides/suspense#using-usequerypromise-and-reactuse-experimental">
+            &quot;useQuery().promise&quot;-feature
+          </a>{' '}
+          of TanStack Query.
+        </p>
+      </section>
 
       <search className="mb-4">
         <h4 id="filter-sort-by-title">Sort by</h4>

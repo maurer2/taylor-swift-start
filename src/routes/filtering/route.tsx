@@ -66,7 +66,7 @@ function Filtering() {
 
       <p className="mb-2" id="filter-sort-by-description">
         Filters on the server via &quot;createServerFn&quot; and url params with preloading. Out of
-        the box stuff without Tanstack Query.
+        the box stuff without TanStack Query.
       </p>
 
       <search className="mb-4">
