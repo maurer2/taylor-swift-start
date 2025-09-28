@@ -8,7 +8,6 @@ const parentRoute = getRouteApi('/filtering-with-tanstack-query');
 export function List() {
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
   const { sortBy } = parentRoute.useSearch() as { sortBy: string }; // https://github.com/TanStack/router/issues/4560
-  console.log(sortBy);
 
   const { data: list, isFetching } = useSuspenseQuery(listEntriesQueryOptions(sortBy));
 

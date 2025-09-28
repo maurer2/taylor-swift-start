@@ -1,13 +1,15 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { Suspense } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { Simplify } from 'type-fest';
 
 import { List } from './-components/List';
 
 import { listEntriesQueryOptions, type ListEntry } from '~/server-functions/get-list-entries';
 
+type SortByValue = Simplify<Lowercase<keyof ListEntry>>;
 type RouteSearchParams = {
-  sortBy: Lowercase<keyof ListEntry>;
+  sortBy: SortByValue;
 };
 
 export const Route = createFileRoute('/filtering-prefetch-in-render')({
@@ -26,14 +28,16 @@ export const Route = createFileRoute('/filtering-prefetch-in-render')({
   },
   // store query options in context
   // https://tanstack.com/query/latest/docs/framework/react/guides/prefetching#router-integration
-  beforeLoad: () => ({
-    queryOptionsListEntries: listEntriesQueryOptions,
-  }),
+  // beforeLoad: () => ({
+  //   queryOptionsListEntries: listEntriesQueryOptions,
+  // }),
   // https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#using-search-params-in-loaders
+  // https://github.com/TanStack/query/discussions/9135#:~:text=Confusion%20around%20when%20to%20use%20what
+
   loaderDeps: ({ search: { sortBy } }) => ({ sortBy }),
-  loader: async ({ context: { queryClient, queryOptionsListEntries }, deps: { sortBy } }) => {
+  loader: async ({ context: { queryClient }, deps: { sortBy } }) => {
     // https://tkdodo.eu/blog/react-query-meets-react-router#getquerydata--fetchquery
-    queryClient.ensureQueryData(queryOptionsListEntries(sortBy));
+    queryClient.ensureQueryData(listEntriesQueryOptions(sortBy));
   },
 });
 
@@ -47,9 +51,19 @@ function FilteringPrefetchInRender() {
     <div className="p-2">
       <h3 className="mb-4">Filtering prefetch in render</h3>
 
+      <p className="mb-2" id="filter-sort-by-description">
+        Filters data on the server via &quot;createServerFn&quot; and url params with prefetching of
+        the current page. Doesn&apos;t block page rendering while data is being fetched. Uses the
+        standard &quot;useQuery&quot;-method with &quot;use()&quot; and the experimental
+        <a href="https://tanstack.com/query/latest/docs/framework/react/guides/suspense#using-usequerypromise-and-reactuse-experimental">
+          &quot;query.promise&quot;-feature
+        </a>{' '}
+        of Tanstack Query.
+      </p>
+
       <search className="mb-4">
         <h4 id="filter-sort-by-title">Sort by</h4>
-        <div className="flex gap-4" role="group" aria-describedby="filter-sort-by-title">
+        <div className="flex gap-4" role="group" aria-labelledby="filter-sort-by-title">
           {sortByButtonLabels.map((sortByButton) => (
             <Link
               to="."
@@ -65,9 +79,7 @@ function FilteringPrefetchInRender() {
           ))}
         </div>
       </search>
-
       <hr />
-
       <Suspense fallback={<p>Loading list</p>}>
         <List listEntriesQuery={listEntriesQuery} />
       </Suspense>

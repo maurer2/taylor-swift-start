@@ -1,14 +1,15 @@
-import { createFileRoute, Link, ErrorComponent } from '@tanstack/react-router';
+import { createFileRoute, Link /* ErrorComponent */ } from '@tanstack/react-router';
 import { Suspense } from 'react';
+import { Simplify } from 'type-fest';
 
 import { List } from './-components/List';
 
 import { getListEntries, type ListEntry } from 'src/server-functions/get-list-entries';
 
+type SortByValue = Simplify<Lowercase<keyof ListEntry>>;
 type RouteSearchParams = {
-  sortBy: Lowercase<keyof ListEntry>;
+  sortBy: SortByValue;
 };
-
 export const Route = createFileRoute('/filtering')({
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   component: Filtering,
@@ -63,9 +64,19 @@ function Filtering() {
     <div className="p-2">
       <h3 className="mb-4">Filtering</h3>
 
+      <p className="mb-2" id="filter-sort-by-description">
+        Filters on the server via &quot;createServerFn&quot; and url params with preloading. Out of
+        the box stuff without Tanstack Query.
+      </p>
+
       <search className="mb-4">
         <h4 id="filter-sort-by-title">Sort by</h4>
-        <div className="flex gap-4" role="group" aria-describedby="filter-sort-by-title">
+        <div
+          className="flex gap-4"
+          role="group"
+          aria-labelledby="filter-sort-by-title"
+          aria-describedby="filter-sort-by-description"
+        >
           {sortByButtonLabels.map((sortByButton) => (
             <Link
               to="."
