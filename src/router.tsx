@@ -1,6 +1,7 @@
 import { createRouter } from '@tanstack/react-router';
 import { QueryClient } from '@tanstack/react-query';
-import { routerWithQueryClient } from '@tanstack/react-router-with-query';
+
+import { setupRouterSsrQueryIntegration } from '@tanstack/react-router-ssr-query';
 
 import { routeTree } from './routeTree.gen';
 import { DefaultCatchBoundary } from './components/DefaultCatchBoundary';
@@ -29,5 +30,16 @@ export function getRouter() {
     defaultPreloadStaleTime: 0,
   });
 
-  return routerWithQueryClient(router, queryClient);
+  setupRouterSsrQueryIntegration({
+    router,
+    queryClient,
+  });
+
+  return router;
+}
+
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: ReturnType<typeof getRouter>;
+  }
 }

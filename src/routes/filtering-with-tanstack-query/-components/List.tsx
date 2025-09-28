@@ -1,12 +1,15 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { getRouteApi } from '@tanstack/react-router';
 
-import { listEntriesQueryOptions } from '~/server-functions/get-list-entries';
+import { listEntriesQueryOptions } from 'src/server-functions/get-list-entries';
 
 const parentRoute = getRouteApi('/filtering-with-tanstack-query');
 
 export function List() {
-  const { sortBy } = parentRoute.useSearch();
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+  const { sortBy } = parentRoute.useSearch() as { sortBy: string }; // https://github.com/TanStack/router/issues/4560
+  console.log(sortBy);
+
   const { data: list, isFetching } = useSuspenseQuery(listEntriesQueryOptions(sortBy));
 
   return (
