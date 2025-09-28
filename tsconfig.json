@@ -15,8 +15,9 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./app/*"]
+      "~/*": ["src/*"]
     },
-    "noEmit": true
+    "noEmit": true,
+    "erasableSyntaxOnly": true
   }
 }

@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable no-octal-escape */
 import {
@@ -8,14 +9,16 @@ import {
   createRootRouteWithContext,
 } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
-import * as React from 'react';
+import type { PropsWithChildren } from 'react';
 import { QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-import { DefaultCatchBoundary } from '~/components/DefaultCatchBoundary';
-import { NotFound } from '~/components/NotFound';
-import appCss from '~/styles/app.css?url';
-import { seo } from '~/utils/seo';
+// eslint-disable-next-line import-x/no-unresolved
+import appCss from '../styles/app.css?url';
+
+import { DefaultCatchBoundary } from 'src/components/DefaultCatchBoundary';
+import { NotFound } from 'src/components/NotFound';
+import { seo } from 'src/utils/seo';
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
@@ -74,14 +77,14 @@ function RootComponent() {
   );
 }
 
-function RootDocument({ children }: { children: React.ReactNode }) {
+function RootDocument({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <head>
         <HeadContent />
       </head>
       <body>
-        <div className="flex gap-2 p-2 text-lg [&>*:not(:first-child)]:before:mr-2 [&>*:not(:first-child)]:before:content-['\00B7']">
+        <nav className="flex gap-2 p-2 text-lg [&>*:not(:first-child)]:before:mr-2 [&>*:not(:first-child)]:before:content-['\00B7']">
           <Link
             to="/"
             activeProps={{
@@ -102,35 +105,34 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             Filtering
           </Link>{' '}
           <Link
-            to="/filtering-with-tanstack-query"
+            to="/filtering-with-usesuspense-query"
             search={{ sortBy: 'name' }}
             activeProps={{
               className: 'font-bold',
             }}
             activeOptions={{ exact: true, includeSearch: false }}
           >
-            Filtering with TanStack Query
+            Filtering with useSuspenseQuery
           </Link>{' '}
           <Link
-            to="/filtering-prefetch-in-render"
+            to="/filtering-with-usequery-promise"
             search={{ sortBy: 'name' }}
             activeProps={{
               className: 'font-bold',
             }}
             activeOptions={{ exact: true, includeSearch: false }}
           >
-            Filtering prefetch in render
+            Filtering with useQuery().promise
           </Link>{' '}
-          <Link
-            // @ts-expect-error
+          {/* <Link
             to="/this-route-does-not-exist"
             activeProps={{
               className: 'font-bold',
             }}
           >
             404
-          </Link>
-        </div>
+          </Link> */}
+        </nav>
         <hr />
         {children}
         <TanStackRouterDevtools position="bottom-right" />

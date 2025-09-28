@@ -1,14 +1,15 @@
-import { createFileRoute, Link, ErrorComponent } from '@tanstack/react-router';
+import { createFileRoute, Link /* ErrorComponent */ } from '@tanstack/react-router';
 import { Suspense } from 'react';
+import { Simplify } from 'type-fest';
 
 import { List } from './-components/List';
 
-import { getListEntries, type ListEntry } from '~/server-functions/get-list-entries';
+import { getListEntries, type ListEntry } from 'src/server-functions/get-list-entries';
 
+type SortByValue = Simplify<Lowercase<keyof ListEntry>>;
 type RouteSearchParams = {
-  sortBy: Lowercase<keyof ListEntry>;
+  sortBy: SortByValue;
 };
-
 export const Route = createFileRoute('/filtering')({
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   component: Filtering,
@@ -23,7 +24,7 @@ export const Route = createFileRoute('/filtering')({
       case 'country':
         return { sortBy: search.sortBy };
       default:
-        throw new Error('Invalid sortBy parameter'); // briefly shown // https://github.com/TanStack/router/issues/3711
+        throw new Error('Invalid sortBy parameter'); // only briefly shown // https://github.com/TanStack/router/issues/3711
     }
   },
   // https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#using-search-params-in-loaders
@@ -63,9 +64,19 @@ function Filtering() {
     <div className="p-2">
       <h3 className="mb-4">Filtering</h3>
 
+      <p className="mb-2" id="filter-sort-by-description">
+        Filters on the server via &quot;createServerFn&quot; and url params with preloading. Out of
+        the box stuff without TanStack Query.
+      </p>
+
       <search className="mb-4">
         <h4 id="filter-sort-by-title">Sort by</h4>
-        <div className="flex gap-4" role="group" aria-describedby="filter-sort-by-title">
+        <div
+          className="flex gap-4"
+          role="group"
+          aria-labelledby="filter-sort-by-title"
+          aria-describedby="filter-sort-by-description"
+        >
           {sortByButtonLabels.map((sortByButton) => (
             <Link
               to="."
