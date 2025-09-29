@@ -15,6 +15,7 @@ type RouteSearchParams = {
 export const Route = createFileRoute('/filtering-with-usequery-promise')({
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   component: FilteringWithUseQueryPromise,
+  ssr: true, // default
   validateSearch: (search): RouteSearchParams => {
     if (!Object.hasOwn(search, 'sortBy') || search.sortBy === 'name') {
       return { sortBy: 'name' };

@@ -1,5 +1,4 @@
-import { createFileRoute, Link /* ErrorComponent */ } from '@tanstack/react-router';
-import { Suspense } from 'react';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import { Simplify } from 'type-fest';
 
 import { List } from './-components/List';
@@ -10,9 +9,9 @@ type SortByValue = Simplify<Lowercase<keyof ListEntry>>;
 type RouteSearchParams = {
   sortBy: SortByValue;
 };
-export const Route = createFileRoute('/filtering')({
+export const Route = createFileRoute('/filtering-without-streaming')({
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  component: Filtering,
+  component: FilteringWithoutStreaming,
   ssr: true, // default
   validateSearch: (search): RouteSearchParams => {
     if (!Object.hasOwn(search, 'sortBy')) {
@@ -30,35 +29,17 @@ export const Route = createFileRoute('/filtering')({
   },
   // https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#using-search-params-in-loaders
   loaderDeps: ({ search: { sortBy } }) => ({ sortBy }),
-  // eslint-disable-next-line arrow-body-style
-  loader: async ({ deps: { sortBy } }) => {
-    //  const dummyList = [
-    //   {
-    //     name: 'Aberdeenshire',
-    //     abbreviation: 'ABD',
-    //     country: 'Scotland',
-    //   },
-    // ];
-
-    // return {
-    //   getListEntriesPromise: Promise.resolve(dummyList),
-    // };
-
-    return {
-      getListEntriesPromise: getListEntries({ data: sortBy }),
-    };
-  },
-  // onCatch(error) {
-  //   console.error('Error in route loader:', error);
-  // },
-  // errorComponent: (error) => <ErrorComponent error={new Error('Error', { cause: error.error })} />,
+  loader: async ({ deps: { sortBy } }) => ({
+    getListEntriesPromise: getListEntries({ data: sortBy }),
+  }),
+  pendingComponent: () => <p className="p-2">Pending</p>, // acts as suspense boundary
   staleTime: 60_000,
   preloadStaleTime: 60_000,
 });
 
 const sortByButtonLabels: RouteSearchParams['sortBy'][] = ['name', 'abbreviation', 'country'];
 
-function Filtering() {
+function FilteringWithoutStreaming() {
   const { getListEntriesPromise } = Route.useLoaderData(); // https://github.com/TanStack/router/issues/1553#issuecomment-2117127131
 
   return (
@@ -96,12 +77,10 @@ function Filtering() {
 
       <hr />
 
-      <Suspense fallback={<p>Loading list</p>}>
-        <List
-          getListEntriesPromise={getListEntriesPromise}
-          isFetching={false} // todo
-        />
-      </Suspense>
+      <List
+        getListEntriesPromise={getListEntriesPromise}
+        isFetching={false} // todo
+      />
     </div>
   );
 }

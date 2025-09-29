@@ -124,6 +124,16 @@ function RootDocument({ children }: PropsWithChildren) {
           >
             Filtering with useQuery().promise
           </Link>{' '}
+          <Link
+            to="/filtering-without-streaming"
+            search={{ sortBy: 'name' }}
+            activeProps={{
+              className: 'font-bold',
+            }}
+            activeOptions={{ exact: true, includeSearch: false }}
+          >
+            Filtering without streaming
+          </Link>{' '}
           {/* <Link
             to="/this-route-does-not-exist"
             activeProps={{
