@@ -3,7 +3,7 @@
 {
   "name": "Node.js & TypeScript",
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  "image": "mcr.microsoft.com/devcontainers/typescript-node:22",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:24",
 
   // Features to add to the dev container. More info: https://containers.dev/features.
   // "features": {},
@@ -46,7 +46,10 @@
         "markdown.preview.scrollEditorWithPreview": true,
         "markdown.preview.scrollPreviewWithEditor": true,
         // icons
-        "vsicons.presets.jsOfficial": true
+        "vsicons.presets.jsOfficial": true,
+        "workbench.editorAssociations": {
+          "*.svg": "default" // https://stackoverflow.com/questions/79363302/how-to-disable-svg-preview-in-vs-code-1-97/79427278#79427278
+        }
       },
       "extensions": [
         "aaron-bond.better-comments",
@@ -95,10 +98,11 @@
         "mikestead.dotenv",
         "vunguyentuan/vscode-css-variables",
         "qcz/vscode-restart-ts-server-button",
-        "github.copilot"
-        // "Orta.vscode-jest",
-        // "ms-playwright.playwright"
-        // "attilabuti.vscode-mjml",
+        "microsoft/vscode-pull-request-github",
+        "Github.copilot",
+        "GitHub.copilot-chat",
+        "vincaslt.highlight-matching-tag",
+        "tamasfe.even-better-toml"
       ]
     }
   }
