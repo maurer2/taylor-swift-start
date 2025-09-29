@@ -134,6 +134,16 @@ function RootDocument({ children }: PropsWithChildren) {
           >
             Filtering without streaming
           </Link>{' '}
+          <Link
+            to="/filtering-without-streaming2"
+            search={{ sortBy: 'name' }}
+            activeProps={{
+              className: 'font-bold',
+            }}
+            activeOptions={{ exact: true, includeSearch: false }}
+          >
+            Filtering without streaming v2
+          </Link>{' '}
           {/* <Link
             to="/this-route-does-not-exist"
             activeProps={{

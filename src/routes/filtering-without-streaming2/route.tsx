@@ -1,15 +1,13 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { Simplify } from 'type-fest';
 
-import { List } from './-components/List';
-
 import { getListEntries, type ListEntry } from 'src/server-functions/get-list-entries';
 
 type SortByValue = Simplify<Lowercase<keyof ListEntry>>;
 type RouteSearchParams = {
   sortBy: SortByValue;
 };
-export const Route = createFileRoute('/filtering-without-streaming')({
+export const Route = createFileRoute('/filtering-without-streaming2')({
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   component: FilteringWithoutStreaming,
   ssr: true, // default
@@ -30,25 +28,29 @@ export const Route = createFileRoute('/filtering-without-streaming')({
   // https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#using-search-params-in-loaders
   loaderDeps: ({ search: { sortBy } }) => ({ sortBy }),
   loader: async ({ deps: { sortBy } }) => ({
-    getListEntriesPromise: getListEntries({ data: sortBy }),
+    listEntries: await getListEntries({ data: sortBy }),
   }),
   pendingComponent: () => <p className="p-2">Pending</p>, // acts as suspense boundary
   staleTime: 60_000,
   preloadStaleTime: 60_000,
+  pendingMs: 0,
 });
 
 const sortByButtonLabels: RouteSearchParams['sortBy'][] = ['name', 'abbreviation', 'country'];
 
 function FilteringWithoutStreaming() {
-  const { getListEntriesPromise } = Route.useLoaderData(); // https://github.com/TanStack/router/issues/1553#issuecomment-2117127131
+  const { listEntries } = Route.useLoaderData();
+  const { isFetching } = Route.useMatch();
+
+  console.log(isFetching);
 
   return (
     <div className="p-2">
       <h3 className="mb-4">Filtering</h3>
 
       <p className="mb-2" id="filter-sort-by-description">
-        use()-<s>hook</s>-function in List triggers nearest suspense boundary (pendingComponent)
-        while promise is pending.
+        The component is not rendered until getListEntries has been resolved. Shows the pending
+        component (pendingComponent) in the meantime.
       </p>
 
       <search className="mb-4">
@@ -77,10 +79,7 @@ function FilteringWithoutStreaming() {
 
       <hr />
 
-      <List
-        getListEntriesPromise={getListEntriesPromise}
-        isFetching={false} // todo
-      />
+      <pre>{JSON.stringify(listEntries, null, 4)}</pre>
     </div>
   );
 }

@@ -9,12 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as FilteringWithoutStreaming2RouteRouteImport } from './routes/filtering-without-streaming2/route'
 import { Route as FilteringWithoutStreamingRouteRouteImport } from './routes/filtering-without-streaming/route'
 import { Route as FilteringWithUsesuspenseQueryRouteRouteImport } from './routes/filtering-with-usesuspense-query/route'
 import { Route as FilteringWithUsequeryPromiseRouteRouteImport } from './routes/filtering-with-usequery-promise/route'
 import { Route as FilteringRouteRouteImport } from './routes/filtering/route'
 import { Route as IndexRouteImport } from './routes/index'
 
+const FilteringWithoutStreaming2RouteRoute =
+  FilteringWithoutStreaming2RouteRouteImport.update({
+    id: '/filtering-without-streaming2',
+    path: '/filtering-without-streaming2',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const FilteringWithoutStreamingRouteRoute =
   FilteringWithoutStreamingRouteRouteImport.update({
     id: '/filtering-without-streaming',
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/filtering-with-usequery-promise': typeof FilteringWithUsequeryPromiseRouteRoute
   '/filtering-with-usesuspense-query': typeof FilteringWithUsesuspenseQueryRouteRoute
   '/filtering-without-streaming': typeof FilteringWithoutStreamingRouteRoute
+  '/filtering-without-streaming2': typeof FilteringWithoutStreaming2RouteRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -57,6 +65,7 @@ export interface FileRoutesByTo {
   '/filtering-with-usequery-promise': typeof FilteringWithUsequeryPromiseRouteRoute
   '/filtering-with-usesuspense-query': typeof FilteringWithUsesuspenseQueryRouteRoute
   '/filtering-without-streaming': typeof FilteringWithoutStreamingRouteRoute
+  '/filtering-without-streaming2': typeof FilteringWithoutStreaming2RouteRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -65,6 +74,7 @@ export interface FileRoutesById {
   '/filtering-with-usequery-promise': typeof FilteringWithUsequeryPromiseRouteRoute
   '/filtering-with-usesuspense-query': typeof FilteringWithUsesuspenseQueryRouteRoute
   '/filtering-without-streaming': typeof FilteringWithoutStreamingRouteRoute
+  '/filtering-without-streaming2': typeof FilteringWithoutStreaming2RouteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -74,6 +84,7 @@ export interface FileRouteTypes {
     | '/filtering-with-usequery-promise'
     | '/filtering-with-usesuspense-query'
     | '/filtering-without-streaming'
+    | '/filtering-without-streaming2'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -81,6 +92,7 @@ export interface FileRouteTypes {
     | '/filtering-with-usequery-promise'
     | '/filtering-with-usesuspense-query'
     | '/filtering-without-streaming'
+    | '/filtering-without-streaming2'
   id:
     | '__root__'
     | '/'
@@ -88,6 +100,7 @@ export interface FileRouteTypes {
     | '/filtering-with-usequery-promise'
     | '/filtering-with-usesuspense-query'
     | '/filtering-without-streaming'
+    | '/filtering-without-streaming2'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -96,10 +109,18 @@ export interface RootRouteChildren {
   FilteringWithUsequeryPromiseRouteRoute: typeof FilteringWithUsequeryPromiseRouteRoute
   FilteringWithUsesuspenseQueryRouteRoute: typeof FilteringWithUsesuspenseQueryRouteRoute
   FilteringWithoutStreamingRouteRoute: typeof FilteringWithoutStreamingRouteRoute
+  FilteringWithoutStreaming2RouteRoute: typeof FilteringWithoutStreaming2RouteRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/filtering-without-streaming2': {
+      id: '/filtering-without-streaming2'
+      path: '/filtering-without-streaming2'
+      fullPath: '/filtering-without-streaming2'
+      preLoaderRoute: typeof FilteringWithoutStreaming2RouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/filtering-without-streaming': {
       id: '/filtering-without-streaming'
       path: '/filtering-without-streaming'
@@ -146,6 +167,7 @@ const rootRouteChildren: RootRouteChildren = {
   FilteringWithUsesuspenseQueryRouteRoute:
     FilteringWithUsesuspenseQueryRouteRoute,
   FilteringWithoutStreamingRouteRoute: FilteringWithoutStreamingRouteRoute,
+  FilteringWithoutStreaming2RouteRoute: FilteringWithoutStreaming2RouteRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
