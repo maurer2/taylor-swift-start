@@ -1,8 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { createFileRoute } from '@tanstack/react-router';
 import { useActionState } from 'react';
-
-import { getListEntries, type ListEntry } from 'src/server-functions/get-list-entries';
+import { json } from '@tanstack/react-start';
 
 type FormState = {
   fields: {
@@ -11,22 +10,43 @@ type FormState = {
       isValid: boolean;
     };
   };
-  calculatedLength?: number;
+  calculatedLengths?: [stringLength: number, arrayLength: number, intlSegmenterLength: number];
 };
 
+const segmenterAPI = new Intl.Segmenter('en-GB', { granularity: 'grapheme' });
+
 export const Route = createFileRoute('/form-handling')({
+  server: {
+    handlers: {
+      POST: async ({ request }) => {
+        const formData = await request.formData();
+        const termFieldValue = formData.get('term-field')?.toString() ?? '';
+
+        const calculatedLengths: FormState['calculatedLengths'] = [
+          termFieldValue.length,
+          [...termFieldValue].length,
+          [...segmenterAPI.segment(termFieldValue)].length,
+        ];
+
+        return json({ calculatedLengths });
+      },
+    },
+  },
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   component: ForHandling,
   ssr: true, // default
-  staleTime: 60_000,
-  preloadStaleTime: 60_000,
 });
 
 async function getStringLength(_: FormState, formData: FormData) {
   const { promise, resolve } = Promise.withResolvers<FormState>();
 
   const termFieldValue = formData.get('term-field');
-  const calculatedLength = termFieldValue?.toString().length ?? 0; // incorrect for emojis
+
+  const request = await fetch('/form-handling', {
+    body: formData,
+    method: 'post',
+  });
+  const response = await request.json();
 
   resolve({
     fields: {
@@ -35,7 +55,7 @@ async function getStringLength(_: FormState, formData: FormData) {
         isValid: true, // todo
       },
     },
-    calculatedLength,
+    calculatedLengths: response.calculatedLengths,
   });
 
   return promise;
@@ -45,7 +65,7 @@ function ForHandling() {
   const [formState, formAction, isPending] = useActionState<FormState, FormData>(getStringLength, {
     fields: {
       term: {
-        value: '🐱',
+        value: '🐱Hållø👩‍🚀👍',
         isValid: true,
       },
     },
@@ -53,9 +73,11 @@ function ForHandling() {
 
   return (
     <search className="p-2">
-      <form action={formAction} inert={isPending}>
+      <h1 className="mb-4">Form handling</h1>
+      <form action={formAction} inert={isPending} method="post" id="form1">
+        <h2 className="mb-2">Server routes (api routes)</h2>
         <div className="mb-2 flex items-center gap-2">
-          <label htmlFor="term-field">Pleaser enter a value</label>
+          <label htmlFor="term-field">Pleaser enter a term:</label>
           <input
             type="text"
             id="term-field"
@@ -67,10 +89,18 @@ function ForHandling() {
         <button type="submit" className="mb-2 border p-2">
           Submit
         </button>
-        <p>
-          <output htmlFor="term-field">{formState.calculatedLength}</output>
-        </p>
+        {formState.calculatedLengths?.length ? (
+          <output form="form1">
+            <code>
+              <pre>{formState.calculatedLengths.toString().replaceAll(',', ', ')}</pre>
+            </code>
+            <span>(string length, array, length, number of graphemes)</span>
+          </output>
+        ) : null}
       </form>
+      {/*
+      <h2 className="mb-2">Server functions directly</h2>
+      <p>todo</p> */}
     </search>
   );
 }
