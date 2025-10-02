@@ -2,6 +2,9 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useActionState } from 'react';
 import { json } from '@tanstack/react-start';
+import type { WritableDeep } from 'type-fest';
+
+import { getMbStrlen } from '../../server-functions/getMbStrlen';
 
 type FormState = {
   fields: {
@@ -10,7 +13,12 @@ type FormState = {
       isValid: boolean;
     };
   };
-  calculatedLengths?: [stringLength: number, arrayLength: number, intlSegmenterLength: number];
+  calculatedLengths?: [
+    stringLength: number,
+    stringSplitLength: number,
+    arrayLength: number,
+    intlSegmenterLength: number,
+  ];
 };
 
 const segmenterAPI = new Intl.Segmenter('en-GB', { granularity: 'grapheme' });
@@ -24,6 +32,7 @@ export const Route = createFileRoute('/form-handling')({
 
         const calculatedLengths: FormState['calculatedLengths'] = [
           termFieldValue.length,
+          termFieldValue.split('').length,
           [...termFieldValue].length,
           [...segmenterAPI.segment(termFieldValue)].length,
         ];
@@ -61,27 +70,56 @@ async function getStringLength(_: FormState, formData: FormData) {
   return promise;
 }
 
-function ForHandling() {
-  const [formState, formAction, isPending] = useActionState<FormState, FormData>(getStringLength, {
+// todo find out how to call it directly from action attribute
+async function getMbStrlenIntermediateFunction(_: FormState, formData: FormData) {
+  const { promise, resolve } = Promise.withResolvers<FormState>();
+
+  const termFieldValue = formData.get('term-field2');
+  const { calculatedLengths } = await getMbStrlen({ data: formData });
+
+  resolve({
     fields: {
       term: {
-        value: '🐱Hållø👩‍🚀👍',
-        isValid: true,
+        value: termFieldValue?.toString() ?? '',
+        isValid: true, // todo
       },
     },
-  });
+    calculatedLengths,
+  } as WritableDeep<FormState>);
+
+  return promise;
+}
+
+const defaultFormState: FormState = {
+  fields: {
+    term: {
+      value: '🐱Hållø👩‍🚀👍',
+      isValid: true,
+    },
+  },
+};
+
+function ForHandling() {
+  const [formState, formAction, isPending] = useActionState<FormState, FormData>(
+    getStringLength,
+    defaultFormState,
+  );
+  const [formState2, formAction2, isPending2] = useActionState<FormState, FormData>(
+    getMbStrlenIntermediateFunction,
+    defaultFormState,
+  );
 
   return (
     <search className="p-2">
       <h1 className="mb-4">Form handling</h1>
-      <form action={formAction} inert={isPending} method="post" id="form1">
+      <form action={formAction} inert={isPending} method="post" id="form1" className="mb-4">
         <h2 className="mb-2">Server routes (api routes)</h2>
         <div className="mb-2 flex items-center gap-2">
-          <label htmlFor="term-field">Pleaser enter a term:</label>
+          <label htmlFor="term-field1">Pleaser enter a term:</label>
           <input
             type="text"
-            id="term-field"
-            name="term-field"
+            id="term-field1"
+            name="term-field1"
             defaultValue={formState.fields.term.value}
             className="p-2 text-black"
           />
@@ -94,13 +132,38 @@ function ForHandling() {
             <code>
               <pre>{formState.calculatedLengths.toString().replaceAll(',', ', ')}</pre>
             </code>
-            <span>(string length, array, length, number of graphemes)</span>
+            <span>(string length, string split length, array length, number of graphemes)</span>
           </output>
         ) : null}
       </form>
-      {/*
+
+      <hr className="mb-4" />
+
       <h2 className="mb-2">Server functions directly</h2>
-      <p>todo</p> */}
+      <form action={formAction2} inert={isPending2} method="post" id="form2" className="mb-4">
+        <h2 className="mb-2">Server action</h2>
+        <div className="mb-2 flex items-center gap-2">
+          <label htmlFor="term-field2">Pleaser enter a term:</label>
+          <input
+            type="text"
+            id="term-field2"
+            name="term-field2"
+            defaultValue={formState2.fields.term.value}
+            className="p-2 text-black"
+          />
+        </div>
+        <button type="submit" className="mb-2 border p-2">
+          Submit
+        </button>
+        {formState2.calculatedLengths?.length ? (
+          <output form="form2">
+            <code>
+              <pre>{formState2.calculatedLengths.toString().replaceAll(',', ', ')}</pre>
+            </code>
+            <span>(string length, string split length, array length, number of graphemes)</span>
+          </output>
+        ) : null}
+      </form>
     </search>
   );
 }
