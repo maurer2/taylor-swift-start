@@ -145,14 +145,24 @@ function RootDocument({ children }: PropsWithChildren) {
             Filtering without streaming v2
           </Link>{' '}
           <Link
-            to="/form-handling"
+            to="/form-handling-via-server-routes"
             search={{ sortBy: 'name' }}
             activeProps={{
               className: 'font-bold',
             }}
             activeOptions={{ exact: true, includeSearch: false }}
           >
-            Form handling
+            Form handling via server routes
+          </Link>{' '}
+          <Link
+            to="/form-handling-via-server-actions"
+            search={{ sortBy: 'name' }}
+            activeProps={{
+              className: 'font-bold',
+            }}
+            activeOptions={{ exact: true, includeSearch: false }}
+          >
+            Form handling via server actions
           </Link>{' '}
           {/* <Link
             to="/this-route-does-not-exist"

@@ -20,7 +20,7 @@ export const getMbStrlen = createServerFn({ method: 'POST' })
       throw new Error('Invalid data types');
     }
 
-    const termFieldValue = (data.get('term-field2') as string) ?? ''; // ignore data potentially being a file blob
+    const termFieldValue = (data.get('term-field') as string) ?? ''; // ignore data potentially being a file blob
 
     return {
       termFieldValue,
@@ -36,5 +36,5 @@ export const getMbStrlen = createServerFn({ method: 'POST' })
       [...segmenterAPI.segment(termFieldValue)].length,
     ];
 
-    return { calculatedLengths };
+    return { termFieldValue, calculatedLengths };
   });
