@@ -84,7 +84,7 @@ function RootDocument({ children }: PropsWithChildren) {
         <HeadContent />
       </head>
       <body>
-        <nav className="flex gap-2 p-2 text-lg [&>*:not(:first-child)]:before:mr-2 [&>*:not(:first-child)]:before:content-['\00B7']">
+        <nav className="flex flex-wrap gap-2 p-2 text-lg [&>*:not(:first-child)]:after:ml-2 [&>*:not(:first-child)]:after:content-['\00B7']">
           <Link
             to="/"
             activeProps={{
@@ -176,7 +176,7 @@ function RootDocument({ children }: PropsWithChildren) {
         <hr />
         {children}
         <TanStackRouterDevtools position="bottom-right" />
-        <ReactQueryDevtools initialIsOpen position="right" />
+        <ReactQueryDevtools initialIsOpen position="top" />
         <Scripts />
       </body>
     </html>
