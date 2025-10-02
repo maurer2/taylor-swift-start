@@ -82,13 +82,7 @@ function FormHandlingViaServerRoutes() {
       <h1 className="mb-4" id="page-title">
         Form handling via server routes (api routes)
       </h1>
-      <form
-        action={formAction}
-        inert={isPending}
-        method="post"
-        id="form"
-        aria-labelledby="page-title"
-      >
+      <form action={formAction} inert={isPending} id="form" aria-labelledby="page-title">
         <div className="mb-2 flex items-center gap-2">
           <label htmlFor="term-field">Pleaser enter a term:</label>
           <input
