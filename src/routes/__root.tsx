@@ -8,10 +8,11 @@ import {
   Scripts,
   createRootRouteWithContext,
 } from '@tanstack/react-router';
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import type { PropsWithChildren } from 'react';
 import { QueryClient } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
+import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools';
+import { TanStackDevtools } from '@tanstack/react-devtools';
 
 // eslint-disable-next-line import-x/no-unresolved
 import appCss from '../styles/app.css?url';
@@ -175,8 +176,23 @@ function RootDocument({ children }: PropsWithChildren) {
         </nav>
         <hr />
         {children}
-        <TanStackRouterDevtools position="bottom-right" />
-        <ReactQueryDevtools initialIsOpen position="top" />
+
+        <TanStackDevtools
+          config={{
+            position: 'bottom-right',
+            defaultOpen: true,
+          }}
+          plugins={[
+            {
+              name: 'TanStack Router',
+              render: <TanStackRouterDevtoolsPanel />,
+            },
+            {
+              name: 'TanStack Query',
+              render: <ReactQueryDevtoolsPanel />,
+            },
+          ]}
+        />
         <Scripts />
       </body>
     </html>
