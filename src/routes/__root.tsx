@@ -7,6 +7,7 @@ import {
   Outlet,
   Scripts,
   createRootRouteWithContext,
+  type LinkProps,
 } from '@tanstack/react-router';
 import type { PropsWithChildren } from 'react';
 import { QueryClient } from '@tanstack/react-query';
@@ -14,7 +15,6 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools';
 import { TanStackDevtools } from '@tanstack/react-devtools';
 
-// eslint-disable-next-line import-x/no-unresolved
 import appCss from '../styles/app.css?url';
 
 import { DefaultCatchBoundary } from 'src/components/DefaultCatchBoundary';
@@ -78,6 +78,56 @@ function RootComponent() {
   );
 }
 
+const navLinks: (LinkProps & { text: string })[] = [
+  {
+    to: '/',
+    text: 'Home',
+    activeOptions: { exact: true },
+  },
+  {
+    to: '/filtering',
+    search: { sortBy: 'name' },
+    text: 'Filtering',
+    activeOptions: { exact: true, includeSearch: false },
+  },
+  {
+    to: '/filtering-with-usesuspense-query',
+    search: { sortBy: 'name' },
+    text: 'Filtering with useSuspenseQuery',
+    activeOptions: { exact: true, includeSearch: false },
+  },
+  {
+    to: '/filtering-with-usequery-promise',
+    search: { sortBy: 'name' },
+    text: 'Filtering with useQuery().promise',
+    activeOptions: { exact: true, includeSearch: false },
+  },
+  {
+    to: '/filtering-without-streaming',
+    search: { sortBy: 'name' },
+    text: 'Filtering without streaming',
+    activeOptions: { exact: true, includeSearch: false },
+  },
+  {
+    to: '/filtering-without-streaming2',
+    search: { sortBy: 'name' },
+    text: 'Filtering without streaming v2',
+    activeOptions: { exact: true, includeSearch: false },
+  },
+  {
+    to: '/form-handling-via-server-routes',
+    search: { sortBy: 'name' },
+    text: 'Form handling via server routes',
+    activeOptions: { exact: true, includeSearch: false },
+  },
+  {
+    to: '/form-handling-via-server-actions',
+    search: { sortBy: 'name' },
+    text: 'Form handling via server actions',
+    activeOptions: { exact: true, includeSearch: false },
+  },
+];
+
 function RootDocument({ children }: PropsWithChildren) {
   return (
     <html lang="en">
@@ -85,94 +135,28 @@ function RootDocument({ children }: PropsWithChildren) {
         <HeadContent />
       </head>
       <body>
-        <nav className="flex flex-wrap gap-2 p-2 text-lg [&>*:not(:first-child)]:after:ml-2 [&>*:not(:first-child)]:after:content-['\00B7']">
-          <Link
-            to="/"
-            activeProps={{
-              className: 'font-bold',
-            }}
-            activeOptions={{ exact: true }}
+        <nav aria-label="Main navigation">
+          <ul
+            role="menubar"
+            className="flex flex-wrap gap-2 p-2 text-lg [&>li>*:not(:first-child)]:after:ml-2 [&>li>*:not(:first-child)]:after:content-['\00B7']"
           >
-            Home
-          </Link>{' '}
-          <Link
-            to="/filtering"
-            search={{ sortBy: 'name' }}
-            activeProps={{
-              className: 'font-bold',
-            }}
-            activeOptions={{ exact: true, includeSearch: false }}
-          >
-            Filtering
-          </Link>{' '}
-          <Link
-            to="/filtering-with-usesuspense-query"
-            search={{ sortBy: 'name' }}
-            activeProps={{
-              className: 'font-bold',
-            }}
-            activeOptions={{ exact: true, includeSearch: false }}
-          >
-            Filtering with useSuspenseQuery
-          </Link>{' '}
-          <Link
-            to="/filtering-with-usequery-promise"
-            search={{ sortBy: 'name' }}
-            activeProps={{
-              className: 'font-bold',
-            }}
-            activeOptions={{ exact: true, includeSearch: false }}
-          >
-            Filtering with useQuery().promise
-          </Link>{' '}
-          <Link
-            to="/filtering-without-streaming"
-            search={{ sortBy: 'name' }}
-            activeProps={{
-              className: 'font-bold',
-            }}
-            activeOptions={{ exact: true, includeSearch: false }}
-          >
-            Filtering without streaming
-          </Link>{' '}
-          <Link
-            to="/filtering-without-streaming2"
-            search={{ sortBy: 'name' }}
-            activeProps={{
-              className: 'font-bold',
-            }}
-            activeOptions={{ exact: true, includeSearch: false }}
-          >
-            Filtering without streaming v2
-          </Link>{' '}
-          <Link
-            to="/form-handling-via-server-routes"
-            search={{ sortBy: 'name' }}
-            activeProps={{
-              className: 'font-bold',
-            }}
-            activeOptions={{ exact: true, includeSearch: false }}
-          >
-            Form handling via server routes
-          </Link>{' '}
-          <Link
-            to="/form-handling-via-server-actions"
-            search={{ sortBy: 'name' }}
-            activeProps={{
-              className: 'font-bold',
-            }}
-            activeOptions={{ exact: true, includeSearch: false }}
-          >
-            Form handling via server actions
-          </Link>{' '}
-          {/* <Link
-            to="/this-route-does-not-exist"
-            activeProps={{
-              className: 'font-bold',
-            }}
-          >
-            404
-          </Link> */}
+            <li className="contents" role="none">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  search={link.search}
+                  activeProps={{
+                    className: 'font-bold',
+                  }}
+                  activeOptions={link.activeOptions}
+                  role="menuitem"
+                >
+                  {link.text}
+                </Link>
+              ))}
+            </li>
+          </ul>
         </nav>
         <hr />
         {children}
