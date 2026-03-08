@@ -139,9 +139,12 @@ function RootDocument({ children }: PropsWithChildren) {
           <ul
             role="menubar"
             className="flex flex-wrap gap-2 p-2 text-lg [&>li>*:not(:first-child)]:after:ml-2 [&>li>*:not(:first-child)]:after:content-['\00B7']"
+            // @ts-expect-error new property
+            // eslint-disable-next-line react/no-unknown-property
+            focusgroup="menubar inline wrap nomemory"
           >
             <li className="contents" role="none">
-              {navLinks.map((link) => (
+              {navLinks.map((link, index) => (
                 <Link
                   key={link.to}
                   to={link.to}
@@ -151,6 +154,8 @@ function RootDocument({ children }: PropsWithChildren) {
                   }}
                   activeOptions={link.activeOptions}
                   role="menuitem"
+                  // @ts-expect-error new property
+                  focusgroupstart={index === 2 ? 'true' : undefined}
                 >
                   {link.text}
                 </Link>
