@@ -1,0 +1,18 @@
+minimumReleaseAge: 10080 # 7 days
+blockExoticSubdeps: true # no git branch as package url
+resolutionMode: highest
+
+allowBuilds:
+  '@parcel/watcher': false
+  '@tailwindcss/oxide': true
+  esbuild: true
+  unrs-resolver: false
+
+supportedArchitectures:
+  cpu:
+    - arm64
+    - x64
+  os:
+    - darwin
+    - linux
+    - win32

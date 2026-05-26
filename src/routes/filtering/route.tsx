@@ -69,8 +69,14 @@ function Filtering() {
         Filters on the server via &quot;createServerFn&quot; and url params with preloading. Out of
         the box stuff without TanStack Query.
       </p>
+      <p>
+        Not recommended:{' '}
+        <a href="https://tkdodo.eu/blog/tan-stack-router-and-query#always-use-a-query">
+          https://tkdodo.eu/blog/tan-stack-router-and-query#always-use-a-query
+        </a>
+      </p>
 
-      <search className="mb-4">
+      <search className="my-4">
         <h4 id="filter-sort-by-title">Sort by</h4>
         <div
           className="flex gap-4"

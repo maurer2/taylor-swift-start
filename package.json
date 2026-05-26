@@ -3,6 +3,7 @@
   "private": true,
   "sideEffects": false,
   "type": "module",
+  "packageManager": "pnpm@11.3.0",
   "scripts": {
     "build": "vite build && tsc --noEmit",
     "dev": "vite dev --port 3000",
@@ -56,17 +57,5 @@
     "vite": "^7.1.7",
     "vite-tsconfig-paths": "^5.1.4",
     "zod": "^4.1.11"
-  },
-  "pnpm": {
-    "supportedArchitectures": {
-      "cpu": [
-        "x64",
-        "arm64"
-      ],
-      "os": [
-        "linux",
-        "darwin"
-      ]
-    }
   }
 }
