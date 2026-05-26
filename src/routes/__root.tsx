@@ -129,6 +129,15 @@ const navLinks: (LinkProps & { text: string })[] = [
 ];
 
 function RootDocument({ children }: PropsWithChildren) {
+  // https://developer.chrome.com/blog/focusgroup-rfc
+  if (typeof window !== 'undefined') {
+    if ('focusgroup' in window) {
+      console.log('Browser supports focus groups');
+    } else {
+      console.warn('Browser does not support focus groups');
+    }
+  }
+
   return (
     <html lang="en">
       <head>
