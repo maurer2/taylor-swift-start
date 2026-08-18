@@ -27,19 +27,17 @@ export const Route = createFileRoute('/filtering-with-usesuspense-query')({
 
     return { sortBy: 'country' };
   },
-  // store query options in context
-  // https://tanstack.com/query/latest/docs/framework/react/guides/prefetching#router-integration
-  // search param needs to be kept otherwise, otherwise TS complains that search is is missing from loaderDeps and loader unless beforeLoad is omitted
-  // @ts-ignore Type '() => Promise<{ name: string; abbreviation: string; country: string; }[]>' is not assignable to type '"Function is not serializable"
-  // beforeLoad: ({ search }) => ({
-  //   queryOptionsListEntries: listEntriesQueryOptions,
-  // }),
+  loaderDeps: ({ search: { sortBy } }) => ({ sortBy }),
+  // store query options preset with current query params in context
+  // https://tkdodo.eu/blog/reliable-query-prefetching-with-tanstack-router
+  context: ({ deps: { sortBy } }) => ({
+    queryOptionsListEntries: listEntriesQueryOptions(sortBy),
+  }),
   // https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#using-search-params-in-loaders
   // https://github.com/TanStack/query/discussions/9135#:~:text=Confusion%20around%20when%20to%20use%20what
-  loaderDeps: ({ search: { sortBy } }) => ({ sortBy }),
-  loader: async ({ context: { queryClient }, deps: { sortBy } }) => {
+  loader: async ({ context: { queryClient, queryOptionsListEntries } }) => {
     // https://tkdodo.eu/blog/react-query-meets-react-router#getquerydata--fetchquery
-    queryClient.ensureQueryData(listEntriesQueryOptions(sortBy));
+    void queryClient.ensureQueryData(queryOptionsListEntries);
   },
 });
 
