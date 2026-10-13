@@ -97,12 +97,6 @@ const navLinks: (LinkProps & { text: string })[] = [
     activeOptions: { exact: true, includeSearch: false },
   },
   {
-    to: '/filtering-with-usequery-promise',
-    search: { sortBy: 'name' },
-    text: 'Filtering with useQuery().promise',
-    activeOptions: { exact: true, includeSearch: false },
-  },
-  {
     to: '/filtering-without-streaming',
     search: { sortBy: 'name' },
     text: 'Filtering without streaming',

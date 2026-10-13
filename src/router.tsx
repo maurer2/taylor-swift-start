@@ -9,14 +9,7 @@ import { NotFound } from './components/NotFound';
 
 export function getRouter() {
   // https://www.brenelz.com/posts/using-server-functions-and-tanstack-query/
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        // https://tanstack.com/query/latest/docs/framework/react/guides/suspense/#using-usequerypromise-and-reactuse-experimental
-        experimental_prefetchInRender: true,
-      },
-    },
-  });
+  const queryClient = new QueryClient();
 
   const router = createRouter({
     routeTree,

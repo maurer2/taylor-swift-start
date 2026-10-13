@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FilteringRouteRouteImport } from './routes/filtering/route'
-import { Route as FilteringWithUsequeryPromiseRouteRouteImport } from './routes/filtering-with-usequery-promise/route'
 import { Route as FilteringWithUsesuspenseQueryRouteRouteImport } from './routes/filtering-with-usesuspense-query/route'
 import { Route as FilteringWithoutStreamingRouteRouteImport } from './routes/filtering-without-streaming/route'
 import { Route as FilteringWithoutStreaming2RouteRouteImport } from './routes/filtering-without-streaming2/route'
@@ -28,12 +27,6 @@ const FilteringRouteRoute = FilteringRouteRouteImport.update({
   path: '/filtering',
   getParentRoute: () => rootRouteImport,
 } as any)
-const FilteringWithUsequeryPromiseRouteRoute =
-  FilteringWithUsequeryPromiseRouteRouteImport.update({
-    id: '/filtering-with-usequery-promise',
-    path: '/filtering-with-usequery-promise',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const FilteringWithUsesuspenseQueryRouteRoute =
   FilteringWithUsesuspenseQueryRouteRouteImport.update({
     id: '/filtering-with-usesuspense-query',
@@ -68,7 +61,6 @@ const FormHandlingViaServerRoutesRouteRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/filtering': typeof FilteringRouteRoute
-  '/filtering-with-usequery-promise': typeof FilteringWithUsequeryPromiseRouteRoute
   '/filtering-with-usesuspense-query': typeof FilteringWithUsesuspenseQueryRouteRoute
   '/filtering-without-streaming': typeof FilteringWithoutStreamingRouteRoute
   '/filtering-without-streaming2': typeof FilteringWithoutStreaming2RouteRoute
@@ -78,7 +70,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/filtering': typeof FilteringRouteRoute
-  '/filtering-with-usequery-promise': typeof FilteringWithUsequeryPromiseRouteRoute
   '/filtering-with-usesuspense-query': typeof FilteringWithUsesuspenseQueryRouteRoute
   '/filtering-without-streaming': typeof FilteringWithoutStreamingRouteRoute
   '/filtering-without-streaming2': typeof FilteringWithoutStreaming2RouteRoute
@@ -89,7 +80,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/filtering': typeof FilteringRouteRoute
-  '/filtering-with-usequery-promise': typeof FilteringWithUsequeryPromiseRouteRoute
   '/filtering-with-usesuspense-query': typeof FilteringWithUsesuspenseQueryRouteRoute
   '/filtering-without-streaming': typeof FilteringWithoutStreamingRouteRoute
   '/filtering-without-streaming2': typeof FilteringWithoutStreaming2RouteRoute
@@ -101,7 +91,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/filtering'
-    | '/filtering-with-usequery-promise'
     | '/filtering-with-usesuspense-query'
     | '/filtering-without-streaming'
     | '/filtering-without-streaming2'
@@ -111,7 +100,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/filtering'
-    | '/filtering-with-usequery-promise'
     | '/filtering-with-usesuspense-query'
     | '/filtering-without-streaming'
     | '/filtering-without-streaming2'
@@ -121,7 +109,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/filtering'
-    | '/filtering-with-usequery-promise'
     | '/filtering-with-usesuspense-query'
     | '/filtering-without-streaming'
     | '/filtering-without-streaming2'
@@ -132,7 +119,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FilteringRouteRoute: typeof FilteringRouteRoute
-  FilteringWithUsequeryPromiseRouteRoute: typeof FilteringWithUsequeryPromiseRouteRoute
   FilteringWithUsesuspenseQueryRouteRoute: typeof FilteringWithUsesuspenseQueryRouteRoute
   FilteringWithoutStreamingRouteRoute: typeof FilteringWithoutStreamingRouteRoute
   FilteringWithoutStreaming2RouteRoute: typeof FilteringWithoutStreaming2RouteRoute
@@ -154,13 +140,6 @@ declare module '@tanstack/react-router' {
       path: '/filtering'
       fullPath: '/filtering'
       preLoaderRoute: typeof FilteringRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/filtering-with-usequery-promise': {
-      id: '/filtering-with-usequery-promise'
-      path: '/filtering-with-usequery-promise'
-      fullPath: '/filtering-with-usequery-promise'
-      preLoaderRoute: typeof FilteringWithUsequeryPromiseRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/filtering-with-usesuspense-query': {
@@ -204,8 +183,6 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FilteringRouteRoute: FilteringRouteRoute,
-  FilteringWithUsequeryPromiseRouteRoute:
-    FilteringWithUsequeryPromiseRouteRoute,
   FilteringWithUsesuspenseQueryRouteRoute:
     FilteringWithUsesuspenseQueryRouteRoute,
   FilteringWithoutStreamingRouteRoute: FilteringWithoutStreamingRouteRoute,
