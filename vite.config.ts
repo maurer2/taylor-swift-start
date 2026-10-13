@@ -15,6 +15,9 @@ const config = defineConfig({
       srcDirectory: 'src',
       start: { entry: './start.tsx' },
       server: { entry: './server.ts' },
+      serverFns: {
+        disableCsrfMiddlewareWarning: true,
+      },
     }),
     viteReact(),
     tailwindcss(),

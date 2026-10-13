@@ -9,37 +9,29 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as FormHandlingViaServerRoutesRouteRouteImport } from './routes/form-handling-via-server-routes/route'
-import { Route as FormHandlingViaServerActionsRouteRouteImport } from './routes/form-handling-via-server-actions/route'
-import { Route as FilteringWithoutStreaming2RouteRouteImport } from './routes/filtering-without-streaming2/route'
-import { Route as FilteringWithoutStreamingRouteRouteImport } from './routes/filtering-without-streaming/route'
-import { Route as FilteringWithUsesuspenseQueryRouteRouteImport } from './routes/filtering-with-usesuspense-query/route'
-import { Route as FilteringWithUsequeryPromiseRouteRouteImport } from './routes/filtering-with-usequery-promise/route'
-import { Route as FilteringRouteRouteImport } from './routes/filtering/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FilteringRouteRouteImport } from './routes/filtering/route'
+import { Route as FilteringWithUsequeryPromiseRouteRouteImport } from './routes/filtering-with-usequery-promise/route'
+import { Route as FilteringWithUsesuspenseQueryRouteRouteImport } from './routes/filtering-with-usesuspense-query/route'
+import { Route as FilteringWithoutStreamingRouteRouteImport } from './routes/filtering-without-streaming/route'
+import { Route as FilteringWithoutStreaming2RouteRouteImport } from './routes/filtering-without-streaming2/route'
+import { Route as FormHandlingViaServerActionsRouteRouteImport } from './routes/form-handling-via-server-actions/route'
+import { Route as FormHandlingViaServerRoutesRouteRouteImport } from './routes/form-handling-via-server-routes/route'
 
-const FormHandlingViaServerRoutesRouteRoute =
-  FormHandlingViaServerRoutesRouteRouteImport.update({
-    id: '/form-handling-via-server-routes',
-    path: '/form-handling-via-server-routes',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const FormHandlingViaServerActionsRouteRoute =
-  FormHandlingViaServerActionsRouteRouteImport.update({
-    id: '/form-handling-via-server-actions',
-    path: '/form-handling-via-server-actions',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const FilteringWithoutStreaming2RouteRoute =
-  FilteringWithoutStreaming2RouteRouteImport.update({
-    id: '/filtering-without-streaming2',
-    path: '/filtering-without-streaming2',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const FilteringWithoutStreamingRouteRoute =
-  FilteringWithoutStreamingRouteRouteImport.update({
-    id: '/filtering-without-streaming',
-    path: '/filtering-without-streaming',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FilteringRouteRoute = FilteringRouteRouteImport.update({
+  id: '/filtering',
+  path: '/filtering',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FilteringWithUsequeryPromiseRouteRoute =
+  FilteringWithUsequeryPromiseRouteRouteImport.update({
+    id: '/filtering-with-usequery-promise',
+    path: '/filtering-with-usequery-promise',
     getParentRoute: () => rootRouteImport,
   } as any)
 const FilteringWithUsesuspenseQueryRouteRoute =
@@ -48,22 +40,30 @@ const FilteringWithUsesuspenseQueryRouteRoute =
     path: '/filtering-with-usesuspense-query',
     getParentRoute: () => rootRouteImport,
   } as any)
-const FilteringWithUsequeryPromiseRouteRoute =
-  FilteringWithUsequeryPromiseRouteRouteImport.update({
-    id: '/filtering-with-usequery-promise',
-    path: '/filtering-with-usequery-promise',
+const FilteringWithoutStreamingRouteRoute =
+  FilteringWithoutStreamingRouteRouteImport.update({
+    id: '/filtering-without-streaming',
+    path: '/filtering-without-streaming',
     getParentRoute: () => rootRouteImport,
   } as any)
-const FilteringRouteRoute = FilteringRouteRouteImport.update({
-  id: '/filtering',
-  path: '/filtering',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const FilteringWithoutStreaming2RouteRoute =
+  FilteringWithoutStreaming2RouteRouteImport.update({
+    id: '/filtering-without-streaming2',
+    path: '/filtering-without-streaming2',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const FormHandlingViaServerActionsRouteRoute =
+  FormHandlingViaServerActionsRouteRouteImport.update({
+    id: '/form-handling-via-server-actions',
+    path: '/form-handling-via-server-actions',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const FormHandlingViaServerRoutesRouteRoute =
+  FormHandlingViaServerRoutesRouteRouteImport.update({
+    id: '/form-handling-via-server-routes',
+    path: '/form-handling-via-server-routes',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -142,46 +142,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/form-handling-via-server-routes': {
-      id: '/form-handling-via-server-routes'
-      path: '/form-handling-via-server-routes'
-      fullPath: '/form-handling-via-server-routes'
-      preLoaderRoute: typeof FormHandlingViaServerRoutesRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/form-handling-via-server-actions': {
-      id: '/form-handling-via-server-actions'
-      path: '/form-handling-via-server-actions'
-      fullPath: '/form-handling-via-server-actions'
-      preLoaderRoute: typeof FormHandlingViaServerActionsRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/filtering-without-streaming2': {
-      id: '/filtering-without-streaming2'
-      path: '/filtering-without-streaming2'
-      fullPath: '/filtering-without-streaming2'
-      preLoaderRoute: typeof FilteringWithoutStreaming2RouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/filtering-without-streaming': {
-      id: '/filtering-without-streaming'
-      path: '/filtering-without-streaming'
-      fullPath: '/filtering-without-streaming'
-      preLoaderRoute: typeof FilteringWithoutStreamingRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/filtering-with-usesuspense-query': {
-      id: '/filtering-with-usesuspense-query'
-      path: '/filtering-with-usesuspense-query'
-      fullPath: '/filtering-with-usesuspense-query'
-      preLoaderRoute: typeof FilteringWithUsesuspenseQueryRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/filtering-with-usequery-promise': {
-      id: '/filtering-with-usequery-promise'
-      path: '/filtering-with-usequery-promise'
-      fullPath: '/filtering-with-usequery-promise'
-      preLoaderRoute: typeof FilteringWithUsequeryPromiseRouteRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/filtering': {
@@ -191,11 +156,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FilteringRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/filtering-with-usequery-promise': {
+      id: '/filtering-with-usequery-promise'
+      path: '/filtering-with-usequery-promise'
+      fullPath: '/filtering-with-usequery-promise'
+      preLoaderRoute: typeof FilteringWithUsequeryPromiseRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/filtering-with-usesuspense-query': {
+      id: '/filtering-with-usesuspense-query'
+      path: '/filtering-with-usesuspense-query'
+      fullPath: '/filtering-with-usesuspense-query'
+      preLoaderRoute: typeof FilteringWithUsesuspenseQueryRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/filtering-without-streaming': {
+      id: '/filtering-without-streaming'
+      path: '/filtering-without-streaming'
+      fullPath: '/filtering-without-streaming'
+      preLoaderRoute: typeof FilteringWithoutStreamingRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/filtering-without-streaming2': {
+      id: '/filtering-without-streaming2'
+      path: '/filtering-without-streaming2'
+      fullPath: '/filtering-without-streaming2'
+      preLoaderRoute: typeof FilteringWithoutStreaming2RouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/form-handling-via-server-actions': {
+      id: '/form-handling-via-server-actions'
+      path: '/form-handling-via-server-actions'
+      fullPath: '/form-handling-via-server-actions'
+      preLoaderRoute: typeof FormHandlingViaServerActionsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/form-handling-via-server-routes': {
+      id: '/form-handling-via-server-routes'
+      path: '/form-handling-via-server-routes'
+      fullPath: '/form-handling-via-server-routes'
+      preLoaderRoute: typeof FormHandlingViaServerRoutesRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
   }

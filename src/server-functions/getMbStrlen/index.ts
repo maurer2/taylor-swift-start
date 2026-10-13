@@ -15,7 +15,7 @@ type GetMbStrlenParams = {
 const segmenterAPI = new Intl.Segmenter('en-GB', { granularity: 'grapheme' });
 
 export const getMbStrlen = createServerFn({ method: 'POST' })
-  .inputValidator((data: unknown): GetMbStrlenParams => {
+  .validator((data: unknown): GetMbStrlenParams => {
     if (!(data instanceof FormData)) {
       throw new Error('Invalid data types');
     }
